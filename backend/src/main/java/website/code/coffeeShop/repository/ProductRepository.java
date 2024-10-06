@@ -21,6 +21,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     Page<Product> findByPnameContainingIgnoseCase(String pname, Pageable pageable);
 
+    Page<Product> findByPnameContaining(String pname, Pageable pageable);
+
     Page<Product> findBynameContainingIgnoseCaseAndCategoryId(String pname, Integer cid, Pageable pageable);
 
     boolean existsByPname(String pname);

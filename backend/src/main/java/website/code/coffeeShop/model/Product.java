@@ -15,18 +15,25 @@ public class Product {
 
     @Column(name = "pname")
     private String pname;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "unit")
     private String unit;
+
     @Column(name = " quantity")
     private int quantity;
+
     @Column(name = "price")
     private float price;
+
     @Column(name = "image")
     private String image;
+
     @Column(name = "category_id")
     private int categoryId;
+
     @Transient
     private String categoryName;
 
