@@ -40,10 +40,10 @@ public class BillService {
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         Date endDate = calendar.getTime();
 
-        return billRepository.findBuCreateTimeBetween(startDate, endDate, pageable);
+        return billRepository.findByCreatedTimeBetween(startDate, endDate, pageable);
     }
 
-    public Bill findBillById(int billId) {
+    public Bill findById(int billId) {
         return billRepository.findById(billId).orElse(null);
     }
 
@@ -102,7 +102,7 @@ public class BillService {
         return orderMap;
     }
 
-    public long getTotalNumberOfProduct(){
+    public long getTotalNumberOfProducts(){
         return billDetailRepository.findTotalNumberOfProducts();
     }
 }

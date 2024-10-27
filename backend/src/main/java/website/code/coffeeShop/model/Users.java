@@ -1,7 +1,8 @@
 package website.code.coffeeShop.model;
 
-import jakarta.persistence.*;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -9,8 +10,8 @@ import lombok.Data;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pid")
-    private int pid;
+    @Column(name = "uid")
+    private int uid;
 
     @Column(name = "fullname")
     private String fullname;
@@ -44,8 +45,8 @@ public class Users {
 
     public Users() {}
 
-    public Users(int pid, String fullname, String dob, String email, String phone, String address, String avatar, String username, String pass, int role_id, int status) {
-        this.pid = pid;
+    public Users(int uid, String fullname, String dob, String email, String phone, String address, String avatar, String username, String pass, int role_id, int status) {
+        this.uid = uid;
         this.fullname = fullname;
         this.dob = dob;
         this.email = email;

@@ -1,9 +1,6 @@
 package website.code.coffeeShop.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 

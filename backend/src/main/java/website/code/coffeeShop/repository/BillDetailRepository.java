@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BillDetailRepository extends JpaRepository<BillDetail, Integer> {
-    List<BillDetail> findByBillId(int billId);
+    List<BillDetail> findByIdBillId(int billId);
 
     @Query("SELECT SUM(bd.quantity) FROM BillDetail bd")
     Long findTotalNumberOfProducts();

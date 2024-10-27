@@ -10,5 +10,5 @@ import website.code.coffeeShop.model.Category;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findCategoriesByCategoryName(String name);
 
-    Page<Category> findByCategoryNameContainingIgnoseCase(String keyword, Pageable pageable);
+    Page<Category> findByCategoryNameContainingIgnoreCase(String keyword, Pageable pageable);
 }

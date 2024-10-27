@@ -62,7 +62,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public List<Product> getLatestProducts(){
+    public List<Product> getLastestProducts(){
         List<Product> products = productRepository.getTop3Products();
         products.forEach(this::setCategoryName);
         return products;
@@ -95,9 +95,9 @@ public class ProductService {
     public Page<Product> searchProducts(String query, Integer categoryId, Pageable pageable){
         Page<Product> productPage;
         if(categoryId != null){
-            productPage = productRepository.findBynameContainingIgnoseCaseAndCategoryId(query, categoryId, pageable);
+            productPage = productRepository.findByPnameContainingIgnoreCaseAndCategoryId(query, categoryId, pageable);
         }else {
-            productPage = productRepository.findByPnameContainingIgnoseCase(query, pageable);
+            productPage = productRepository.findByPnameContainingIgnoreCase(query, pageable);
         }
         productPage.forEach(this::setCategoryName);
         return productPage;

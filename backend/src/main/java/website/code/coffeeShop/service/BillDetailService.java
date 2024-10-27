@@ -15,6 +15,6 @@ public class BillDetailService {
     public void save(BillDetail billDetail) {billDetailRepository.save(billDetail);}
 
     public List<BillDetail> findByBillId(int billId) {
-        return billDetailRepository.findByBillId(billId);
+        return billDetailRepository.findByIdBillId(billId);
     }
 }

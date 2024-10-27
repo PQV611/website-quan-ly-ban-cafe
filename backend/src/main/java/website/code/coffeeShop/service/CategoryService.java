@@ -41,6 +41,6 @@ public class CategoryService {
     }
 
     public Page<Category> searchByName(String keyword, int pageNo, int pageSize) {
-        return categoryRepository.findByCategoryNameContainingIgnoseCase(keyword, PageRequest.of(pageNo - 1, pageSize));
+        return categoryRepository.findByCategoryNameContainingIgnoreCase(keyword, PageRequest.of(pageNo - 1, pageSize));
     }
 }

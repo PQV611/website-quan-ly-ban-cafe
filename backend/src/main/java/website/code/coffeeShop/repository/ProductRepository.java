@@ -19,11 +19,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT * FROM Product ORDER BY pid DESC LIMIT 3;", nativeQuery = true)
     List<Product> getTop3Products();
 
-    Page<Product> findByPnameContainingIgnoseCase(String pname, Pageable pageable);
+    Page<Product> findByPnameContainingIgnoreCase(String pname, Pageable pageable);
 
     Page<Product> findByPnameContaining(String pname, Pageable pageable);
 
-    Page<Product> findBynameContainingIgnoseCaseAndCategoryId(String pname, Integer cid, Pageable pageable);
+    Page<Product> findByPnameContainingIgnoreCaseAndCategoryId(String pname, Integer cid, Pageable pageable);
 
     boolean existsByPname(String pname);
 

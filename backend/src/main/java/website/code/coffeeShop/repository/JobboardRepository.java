@@ -8,5 +8,5 @@ import website.code.coffeeShop.model.Jobboard;
 
 @Repository
 public interface JobboardRepository extends JpaRepository<Jobboard, Integer> {
-    Page<Jobboard> findByUserFullNameCotaining(String fullname ,Pageable pageable);
+    Page<Jobboard> findByUserFullnameContaining(String fullname ,Pageable pageable);
 }

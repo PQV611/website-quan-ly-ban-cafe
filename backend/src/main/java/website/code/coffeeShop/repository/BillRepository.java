@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Integer> {
-    Page<Bill> findBuCreateTimeBetween(Date startDate, Date endDate, Pageable pageable);
+    Page<Bill> findByCreatedTimeBetween(Date startDate, Date endDate, Pageable pageable);
 
     Page<Bill> findByUserId(int userId, Pageable pageable);
 
