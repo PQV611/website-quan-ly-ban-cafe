@@ -105,20 +105,24 @@
                 </div>
                 <nav class="tm-nav">
                     <ul>
-                        <li><a th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Home</a></li>
+                        <li><a th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Trang chủ</a></li>
                         <li><a th:classappend="${currentPage == 'menu'} ? 'active'" href="/menu">Menu</a></li>
                         <li><a href="#">Contact</a></li>
-                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Register</a></li>
-                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Login</a></li>
-                        <li th:if="${user != null}"><a style="color: yellow" href="#"><span th:text="${user.getUsername()}"></span></a></li>
-                        <li th:if="${user != null}"><a th:classappend="${currentPage == 'profile'} ? 'active'" href="/profile">Profile</a></li>
+                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a></li>
+                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
                         <li th:if="${user != null}">
                             <a class="nav-icon position-relative text-decoration-none" href="/cart">
                                 <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                                 <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark" th:text="${cartItems.size()}"></span>
                             </a>
                         </li>
-                        <li th:if="${user != null}"><a href="/logout">Logout</a></li>
+                        <li th:classappend="${currentPage == 'profile'} ? 'active'" th:if="${user != null}">
+                            <a href="/profile">
+                                <i class="bi bi-person-circle"></i>
+                                <span style="color: yellow" th:text="${user.getUsername()}"></span>
+                            </a>
+                        </li>
+                        <li th:if="${user != null}"><a href="/logout"><i class="bi bi-box-arrow-right"></i></a></li>
                     </ul>
                 </nav>
             </div>
@@ -139,18 +143,10 @@
     <div class="row">
         <!-- left column -->
         <div class="col-md-3">
-            <!--            <div class="avatar-container">-->
-            <!--                <img th:src="@{/img/coffee.png}" class="avatar img-circle img-thumbnail" alt="avatar">-->
-            <!--                <h3 class="username" th:text="${user.username}"></h3>-->
-            <!--                <h6>Upload a different photo...</h6>-->
-            <!--                <input type="file" class="form-control">-->
-            <!--            </div>-->
             <div class="avatar-container">
                 <img th:src="'data:image/jpeg;base64,' + ${user.avatar}" class="avatar img-circle img-thumbnail" alt="avatar">
                 <h3 class="username" th:text="${user.username}"></h3>
             </div>
-
-
         </div>
 
         <!-- edit form column -->
@@ -165,21 +161,21 @@
             <div class="profile-table">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">Full Name:</label>
+                        <label class="col-lg-3 control-label">Họ tên:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" th:value="${user.fullname}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">Address:</label>
+                        <label class="col-lg-3 control-label">Địa chỉ:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" th:value="${user.address}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">DOB:</label>
+                        <label class="col-lg-3 control-label">Sinh nhật:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="date" th:value="${user.dob}" readonly>
+                            <input class="form-control" type="text" th:value="${#dates.format(user.dob, 'yyyy-MM-dd')}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -189,16 +185,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">Phone Number:</label>
+                        <label class="col-lg-3 control-label">Điện thoại:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" th:value="${user.phone}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-10 col-sm-offset-2">
-                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
-                            <a href="/profile/changePassword" class="btn btn-default">Change Password</a>
-                            <a href="/profile/history" class="btn btn-default">Order History</a>
+                            <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#editProfileModal">Sửa thông tin</button>
+                            <a href="/profile/changePassword" class="btn btn-default">Đổi mật khẩu</a>
+                            <a href="/profile/history" class="btn btn-default">Lịch sử mua</a>
                         </div>
                     </div>
                 </form>
@@ -207,57 +203,12 @@
     </div>
 </div>
 <hr>
-
-<!-- Edit Profile Modal -->
-<!--<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>-->
-<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-
-<!--                <form th:action="@{/profile/edit}" method="post">-->
-<!--                    <input type="hidden" name="uid" th:value="${user.uid}" />-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="fullname">Full Name</label>-->
-<!--                        <input type="text" id="fullname" name="fullname" class="form-control" th:value="${user.fullname}" required />-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="dob">Date of Birth</label>-->
-<!--                        <input type="date" id="dob" name="dob" class="form-control" th:value="${user.dob}" required />-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="address">Address</label>-->
-<!--                        <input type="text" id="address" name="address" class="form-control" th:value="${user.address}" required />-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="phone">Phone Number</label>-->
-<!--                        <input type="text" id="phone" name="phone" class="form-control" th:value="${user.phone}" required />-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="email">Email</label>-->
-<!--                        <input type="email" id="email" name="email" class="form-control" th:value="${user.email}" required />-->
-<!--                    </div>-->
-<!--                    <div class="form-group">-->
-<!--                        <button type="submit" class="btn btn-custom">Save changes</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-
 <!-- Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <h5 class="modal-title" id="editProfileModalLabel">Chỉnh sửa cá nhân</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -266,19 +217,19 @@
                 <form th:action="@{/profile/edit}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="uid" th:value="${user.uid}" />
                     <div class="form-group">
-                        <label for="fullname">Full Name</label>
+                        <label for="fullname">Họ tên</label>
                         <input type="text" id="fullname" name="fullname" class="form-control" th:value="${user.fullname}" required />
                     </div>
                     <div class="form-group">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" class="form-control" th:value="${user.dob}" required />
+                        <label for="dob">Sinh nhật</label>
+                        <input type="text" id="dob" name="dob" class="form-control" th:value="${#dates.format(user.dob, 'yyyy-MM-dd')}" placeholder="Nhập dạng yyyy-MM-dd" required />
                     </div>
                     <div class="form-group">
-                        <label for="address">Address</label>
+                        <label for="address">Địa chỉ</label>
                         <input type="text" id="address" name="address" class="form-control" th:value="${user.address}" required />
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone Number</label>
+                        <label for="phone">Số điện thoại</label>
                         <input type="text" id="phone" name="phone" class="form-control" th:value="${user.phone}" required
                                pattern="0[0-9]{9}" title="Số điện thoại bắt đầu bằng số 0 và có 10 số"/>
                         <span th:if="${phoneError}" class="text-danger" th:text="${phoneError}"></span>
@@ -289,11 +240,12 @@
                         <span th:if="${emailError}" class="text-danger" th:text="${emailError}"></span>
                     </div>
                     <div class="form-group">
-                        <label for="avatar">Profile Image</label>
-                        <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*"/>
+                        <label for="avatar">Ảnh cá nhân</label>
+                        <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*" onchange="previewImage(event)"/>
+                        <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; max-width: 100%; height: auto;"/>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-custom">Save changes</button>
+                        <button type="submit" class="btn btn-custom">Lưu thay đổi</button>
                     </div>
                 </form>
             </div>
@@ -301,28 +253,27 @@
     </div>
 </div>
 
-
 </div>
 <footer>
     <div class="tm-black-bg">
         <div class="container">
             <div class="row margin-bottom-60">
                 <nav class="col-lg-3 col-md-3 tm-footer-nav tm-footer-div">
-                    <h3 class="tm-footer-div-title">Main Menu</h3>
+                    <h3 class="tm-footer-div-title">MENU CHÍNH</h3>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Today Special</a></li>
+                        <li><a href="/homepage">Trang chủ</a></li>
                         <li><a href="/menu">Menu</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Liên hệ</a></li>
                     </ul>
                 </nav>
                 <div class="col-lg-5 col-md-5 tm-footer-div">
-                    <h3 class="tm-footer-div-title">About Us</h3>
+                    <h3 class="tm-footer-div-title">CHÚNG TÔI</h3>
                     <p class="margin-top-15">The Coffee Shop sẽ là nơi mọi người xích lại gần nhau, đề cao giá trị kết
                         nối con người và sẻ chia thân tình bên những tách cà phê, ly trà đượm hương, truyền cảm hứng về
                         lối sống hiện đại.</p>
                 </div>
                 <div class="col-lg-4 col-md-4 tm-footer-div">
+                    <h3 class="tm-footer-div-title">BẠN CẦN</h3>
                     <p><i class="bi bi-telephone"></i> Đặt hàng: 1800 6936</p>
                     <p><i class="bi bi-envelope"></i> Liên hệ</p>
                 </div>
@@ -332,7 +283,7 @@
     <div>
         <div class="container">
             <div class="row tm-copyright">
-                <p class="col-lg-12 small copyright-text text-center">Copyright &copy; 2024 Coffee Shop</p>
+                <p class="col-lg-12 small copyright-text text-center">Bản quyền &copy; 2024 Coffee Shop</p>
             </div>
         </div>
     </div>
@@ -364,6 +315,18 @@
             $('#editProfileModal').modal('show');
         }
     });
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
 </body>
 </html>

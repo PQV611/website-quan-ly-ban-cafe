@@ -17,20 +17,20 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
     @Column(name = "description")
-    private String description;
+    private String describe;
 
     public Category() {}
 
-    public Category(String groupName, String categoryName, String description) {
+    public Category(String groupName, String categoryName, String describe) {
         this.groupName = groupName;
         this.categoryName = categoryName;
-        this.description = description;
+        this.describe = describe;
     }
 
-    public Category(int cid, String groupName, String categoryName, String description) {
+    public Category(int cid, String groupName, String categoryName, String describe) {
         this.cid = cid;
         this.groupName = groupName;
         this.categoryName = categoryName;
-        this.description = description;
+        this.describe = describe;
     }
 }

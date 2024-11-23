@@ -47,7 +47,7 @@ public class TableManagementController {
 
         // Validate the status value (1 for available, 0 for not available)
         if (status != 0 && status != 1) {
-            redirectAttributes.addFlashAttribute("error", "Invalid status value");
+            redirectAttributes.addFlashAttribute("error", "Giá trị trạng thái không hợp lệ !");
             return "redirect:/management/table";
         }
 
@@ -57,9 +57,9 @@ public class TableManagementController {
             table.setStatus(status);
             tableService.save(table);
             logger.info("Updated status for tid: {} to status: {}", tid, status);
-            redirectAttributes.addFlashAttribute("success", "Updated status of table successfully");
+            redirectAttributes.addFlashAttribute("success", "Cập nhật trạng thái thành công !");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Table not found");
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy bàn !");
         }
 
         return "redirect:/management/table";

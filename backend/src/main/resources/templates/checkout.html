@@ -35,16 +35,12 @@
                 </div>
                 <nav class="tm-nav">
                     <ul>
-                        <li><a th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Home</a></li>
+                        <li><a th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Trang chủ</a></li>
                         <li><a th:classappend="${currentPage == 'menu'} ? 'active'" href="/menu">Menu</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Register</a>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a>
                         </li>
-                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Login</a></li>
-                        <li th:if="${user != null}"><a style="color: yellow" href="#"><span
-                                th:text="${user.getUsername()}"></span></a></li>
-                        <li th:classappend="${currentPage == 'profile'} ? 'active'" th:if="${user != null}"><a
-                                href="/profile">Profile</a></li>
+                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
                         <li th:if="${user != null}">
                             <a th:classappend="${currentPage == 'cart'} ? 'active'"
                                class="nav-icon position-relative text-decoration-none" href="/cart">
@@ -54,7 +50,14 @@
                                         th:text="${cartItems.size()}"></span>
                             </a>
                         </li>
-                        <li th:if="${user != null}"><a href="/logout">Logout</a></li>
+                        <li th:classappend="${currentPage == 'profile'} ? 'active'" th:if="${user != null}">
+                            <!--                            <span th:if="${user != null}"><a style="color: yellow"></a></span>-->
+                            <a href="/profile">
+                                <i class="bi bi-person-circle"></i>
+                                <span style="color: yellow" th:text="${user.getUsername()}"></span>
+                            </a>
+                        </li>
+                        <li th:if="${user != null}"><a href="/logout"><i class="bi bi-box-arrow-right"></i></a></li>
                     </ul>
                 </nav>
             </div>
@@ -66,12 +69,12 @@
     <section class="payment-form dark">
         <div class="container">
             <div class="block-heading">
-                <h2>Payment</h2>
+                <h2>THÔNG TIN ĐƠN HÀNG</h2>
             </div>
             <form th:action="@{/cart/checkout}" method="post" onsubmit="return validatePhoneNumber(this.querySelector('#card-holder'));">
 
                 <div class="products">
-                    <h3 class="title">Checkout</h3>
+                    <h3 class="title">Thanh toán</h3>
                     <div th:each="cartItemWithProduct : ${cartItems}">
                         <div class="item">
                             <span class="price"
@@ -83,23 +86,23 @@
                 </div>
 
                 <div class="card-details">
-                    <h3 class="title">Purchase information</h3>
+                    <h3 class="title">Thông tin mua hàng</h3>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label for="card-holder">Phone</label>
+                            <label for="card-holder">Điện thoại</label>
                             <input id="card-holder" name="phone" type="text" class="form-control"
                                    placeholder="Enter phone" th:value="${phone ?: user.getPhone()}"
                                    aria-label="Card Holder" aria-describedby="basic-addon1" required>
                         </div>
 
                         <div class="form-group col-sm-6">
-                            <label for="card-number">Address</label>
+                            <label for="card-number">Địa chỉ</label>
                             <input id="card-number" name="address" type="text" class="form-control"
                                    placeholder="Enter address" th:value="${address ?: user.getAddress()}"
                                    aria-label="Card Holder" aria-describedby="basic-addon1" required>
                         </div>
                         <div>
-                            <p class="form-check">Choose payment method:</p>
+                            <p class="form-check">Chọn phương thức thanh toán:</p>
                             <div class="form-check">
                                 <input type="radio" name="paymentMethod" id="cashOnDelivery" value="cash" th:checked="${paymentMethod == null || paymentMethod == 'cash'}">
                                 <label for="cashOnDelivery">
@@ -116,14 +119,12 @@
                             <div id="qrCode" style="display: none; margin-top: 20px;">
                                 <img style="width: 50%" src="/img/qrcode.jpg" alt="QR Code"
                                      class="img-fluid">
-                                <p class="form-check" style="color: red">Quý khách vui lòng thanh toán trước khi nhấn
-                                    "Buy
-                                    now".</p>
+                                <p class="form-check" style="color: red">Quý khách vui lòng thanh toán trước khi nhấn "Mua hàng" !</p>
                             </div>
                         </div>
 
                         <div class="form-group col-sm-12">
-                            <button type="submit" class="btn btn-primary btn-block">Order confirmation</button>
+                            <button type="submit" class="btn btn-primary btn-block">MUA HÀNG</button>
                         </div>
                         <div class="row mt-3" th:if="${successMessage}">
                             <div class="col-12">
@@ -134,7 +135,7 @@
                         </div>
                         <div class="col-12">
                             <h5>
-                                <a href="/menu">Back to shopping</a>
+                                <a href="/menu">QUAY LẠI</a>
                             </h5>
                         </div>
                     </div>
@@ -149,22 +150,21 @@
         <div class="container">
             <div class="row margin-bottom-60">
                 <nav class="col-lg-3 col-md-3 tm-footer-nav tm-footer-div">
-                    <h3 class="tm-footer-div-title">Main Menu</h3>
+                    <h3 class="tm-footer-div-title">MENU CHÍNH</h3>
                     <ul>
-                        <li><a href="/homepage">Home</a></li>
+                        <li><a href="/homepage">Trang chủ</a></li>
                         <li><a href="/menu">Menu</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Liên hệ</a></li>
                     </ul>
                 </nav>
                 <div class="col-lg-5 col-md-5 tm-footer-div">
-                    <h3 class="tm-footer-div-title">About Us</h3>
-                    <p class="margin-top-15">The Coffee Shop sẽ là nơi mọi người xích lại gần nhau, đề cao giá trị
-                        kết
-                        nối con người và sẻ chia thân tình bên những tách cà phê, ly trà đượm hương, truyền cảm hứng
-                        về
+                    <h3 class="tm-footer-div-title">CHÚNG TÔI</h3>
+                    <p class="margin-top-15">The Coffee Shop sẽ là nơi mọi người xích lại gần nhau, đề cao giá trị kết
+                        nối con người và sẻ chia thân tình bên những tách cà phê, ly trà đượm hương, truyền cảm hứng về
                         lối sống hiện đại.</p>
                 </div>
                 <div class="col-lg-4 col-md-4 tm-footer-div">
+                    <h3 class="tm-footer-div-title">BẠN CẦN</h3>
                     <p><i class="bi bi-telephone"></i> Đặt hàng: 1800 6936</p>
                     <p><i class="bi bi-envelope"></i> Liên hệ</p>
                 </div>
@@ -174,7 +174,7 @@
     <div>
         <div class="container">
             <div class="row tm-copyright">
-                <p class="col-lg-12 small copyright-text text-center">Copyright &copy; 2024 Coffee Shop</p>
+                <p class="col-lg-12 small copyright-text text-center">Bản quyền &copy; 2024 Coffee Shop</p>
             </div>
         </div>
     </div>

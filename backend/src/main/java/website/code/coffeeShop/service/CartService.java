@@ -25,6 +25,10 @@ public class CartService {
     }
     public List<CartItem> getCartItems() {return cartItems;}
 
+    public void deleteProductFromCart(int productId) {
+        cartItems.removeIf(cartItem -> cartItem.getProduct().getPid() == productId);
+    }
+
     public void clearCart(){cartItems.clear();}
 
     public float getTotalPrice(){

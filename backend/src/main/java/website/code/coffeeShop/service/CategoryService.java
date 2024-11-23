@@ -25,7 +25,7 @@ public class CategoryService {
         Category existingCategory = categoryRepository.findById(category.getCid()).orElse(null);
         if (existingCategory != null) {
             existingCategory.setGroupName(category.getGroupName());
-            existingCategory.setDescription(category.getDescription());
+            existingCategory.setDescribe(category.getDescribe());
             existingCategory.setCategoryName(category.getCategoryName());
             categoryRepository.save(existingCategory);
         }
@@ -34,6 +34,7 @@ public class CategoryService {
     public void deleteById(int cid) {
         productService.deleteProductsByCategoryId(cid);
         categoryRepository.deleteById(cid);
+
     }
 
     public Page<Category> findPaginated(int pageNo, int pageSize) {

@@ -20,24 +20,24 @@ public class ExcelExportService {
     @Autowired
     private UserService userService;
 
-    public ByteArrayInputStream exportBillToExcel(Bill bill, List<BillDetail> billDetails) throws IOException {
+    public ByteArrayInputStream exportBillToExcel(Bill bill, int userid, List<BillDetail> billDetails) throws IOException {
         try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Bill and BillDetail");
+            Sheet sheet = workbook.createSheet("Chi tiết hóa đơn");
 
             Row billHeader = sheet.createRow(0);
-            billHeader.createCell(0).setCellValue("Bill Information");
+            billHeader.createCell(0).setCellValue("Thông tin hóa đơn");
 
             Row billInfoHeader = sheet.createRow(1);
             billInfoHeader.createCell(0).setCellValue("Bill ID");
-            billInfoHeader.createCell(1).setCellValue("Phone");
-            billInfoHeader.createCell(2).setCellValue("Address");
-            billHeader.createCell(3).setCellValue("Created Time");
-            billHeader.createCell(4).setCellValue("Number of Guests");
-            billHeader.createCell(5).setCellValue("Total Cost");
-            billHeader.createCell(6).setCellValue("Table ID");
-            billHeader.createCell(7).setCellValue("User Name");
-            billHeader.createCell(8).setCellValue("Status");
-            billHeader.createCell(9).setCellValue("Type");
+            billInfoHeader.createCell(1).setCellValue("Điện thoại");
+            billInfoHeader.createCell(2).setCellValue("Địa chỉ");
+            billHeader.createCell(3).setCellValue("Ngày tạo");
+            billHeader.createCell(4).setCellValue("Số lượng khách hàng");
+            billHeader.createCell(5).setCellValue("Tổng chi phí");
+            billHeader.createCell(6).setCellValue("Mã bàn");
+            billHeader.createCell(7).setCellValue("Tên người dùng");
+            billHeader.createCell(8).setCellValue("Trạng thái");
+            billHeader.createCell(9).setCellValue("Kiểu");
 
             Row billRow = sheet.createRow(2);
             billRow.createCell(0).setCellValue(bill.getBillId());
@@ -48,7 +48,7 @@ public class ExcelExportService {
             billRow.createCell(5).setCellValue(bill.getTotalCost());
             billRow.createCell(6).setCellValue(bill.getTableId());
 
-            Users user = userService.findById(bill.getBillId());
+            Users user = userService.findById(userid);
             billRow.createCell(7).setCellValue(user.getUsername());
 
             String statusText = bill.getStatus() == 1 ? "Đã thanh toán" : "Chưa thanh toán";
@@ -63,9 +63,9 @@ public class ExcelExportService {
 
             Row detailInfoHeader = sheet.createRow(detailStartRow + 1);
             detailInfoHeader.createCell(0).setCellValue("Bill ID");
-            detailInfoHeader.createCell(1).setCellValue("Product Name");
-            detailInfoHeader.createCell(2).setCellValue("Quantity");
-            detailInfoHeader.createCell(3).setCellValue("Price");
+            detailInfoHeader.createCell(1).setCellValue("Tên sản phẩm");
+            detailInfoHeader.createCell(2).setCellValue("Số lượng");
+            detailInfoHeader.createCell(3).setCellValue("Giá");
 
             int detailRowNum = detailStartRow + 2;
             for( BillDetail detail : billDetails) {

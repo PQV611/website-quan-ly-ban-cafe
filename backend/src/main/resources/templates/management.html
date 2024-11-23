@@ -4,16 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cashier Feature</title>
+    <title>Thu ngân</title>
     <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .sidebar {
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px; /* Adjust width as needed */
             background-color: rgb(198, 198, 198);
-            width: 100px;
+            padding-top: 20px;
+        }
+
+        .sidebar .nav {
+            display: flex;
+            flex-direction: column;
         }
 
         .product-img {
@@ -21,45 +30,48 @@
             height: auto;
         }
 
-        .nav a {
+        .sidebar .nav a {
             margin: 10px 0;
             background-color: gray;
             border-radius: 15px;
             text-align: center;
             color: white;
             padding: 10px 0;
+            display: block;
         }
 
-        .nav a:hover {
+        .sidebar .nav a:hover {
             color: blue;
         }
 
         .product-list {
             background-color: rgb(244, 243, 243);
+            margin-left: 220px; /* Ensure content does not overlap with sidebar */
+            padding: 20px;
         }
 
-        .username{
-            background-color: gray;
-            color: aliceblue;
-            text-align: center;
-            padding: 5px 0;
-        }
+        /*.username{*/
+        /*    background-color: gray;*/
+        /*    color: aliceblue;*/
+        /*    text-align: center;*/
+        /*    padding: 5px 0;*/
+        /*}*/
     </style>
 </head>
 
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-1 sidebar">
+        <div class="col-md-2 sidebar">
             <nav class="nav flex-column">
-                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management">Home</a>
-                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products">Warehouse</a>
-                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Categories</a>
-                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Table List</a>
-                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">All Bill</a>
-                <a th:if="${user.getRole_id()==5 || user.getRole_id()==2 || user.getRole_id()==3 || user.getRole_id()==4}" href="/management/jobboard">Job Board</a>
-                <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Statistic</a>
-                <a th:if="${user.getRole_id()==5}" href="/admin/users">Setting</a>
+                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management" style="background-color: black; color: white">Trang chủ</a>
+                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products">Kho</a>
+                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Danh mục</a>
+                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>
+                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">Tất cả Bill</a>
+<!--                <a th:if="${user.getRole_id()==5 || user.getRole_id()==2 || user.getRole_id()==3 || user.getRole_id()==4}" href="/management/jobboard">Bảng công việc</a>-->
+                <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Thống kê</a>
+                <a th:if="${user.getRole_id()==5}" href="/admin/users">Cài đặt</a>
             </nav>
         </div>
         <div class="col-md-6 offset-md-1 product-list">
@@ -83,8 +95,7 @@
                 <th:block th:each="product : ${products}">
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <td><img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image"
-                                     /></td>
+                            <td><img th:src="${product.image}" alt="Product Image"/></td>
                             <div class="card-body">
                                 <a class="card-title"
                                    th:href="@{/management/products/{pid}/addtocart(pid=${product.pid})}"
@@ -122,22 +133,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="row" style="border-bottom: 1px solid rgb(184, 184, 184);">
+        <div class="col-md-4">
+            <div class="row" style="border-bottom: 1px solid rgb(184, 184, 184); display: flex;margin-top: 5%;margin-left: 5%">
                 <div class="col-4" style="color: #0e4bf1; text-transform: uppercase">
-                    <h5 class="username" th:text="${user.getUsername()}"></h5>
+                    <h5 class="username" style="padding: 0 20px;font-weight: bold;"
+                        th:text="${user.getUsername()}"></h5>
                 </div>
                 <div class="col-4">
-                    <button type="button" class="btn btn-secondary">
-                        <a href="/staffProfile" style="color: aliceblue">
-                            <i class="fas fa-user"></i> PROFILE
+                    <button type="button" class="" style="border: none; background-color: white">
+                        <a href="/staffProfile" style="padding: 0 10px">
+                            <i class="fas fa-user"></i> Cá nhân
                         </a>
                     </button>
                 </div>
                 <div class="col-4">
-                    <button type="button" class="btn btn-secondary">
-                        <a href="/logout" style="color: aliceblue">
-                            <i class="fas fa-sign-out-alt"></i> LOGOUT
+                    <button type="button" class="" style="border: none; background-color: white">
+                        <a href="/logout" style="padding: 0 10px">
+                            <i class="fas fa-sign-out-alt"></i>Đăng xuất
                         </a>
                     </button>
                 </div>
@@ -146,22 +158,20 @@
             <form id="cart-form" th:action="@{/createBill}" method="POST">
                 <div class="row">
                     <div class="col-12">
-                        <h2 class="my-4">Cart</h2>
+                        <h2 class="my-4">Sản phẩm</h2>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-6">
                         <label>
-                            <input type="number" class="form-control" placeholder="Number of guests"
-                                   name="numberOfGuest"
-                                   required>
+                            <input type="number" class="form-control" placeholder="Số lượng khách hàng" name="numberOfGuest" required>
                         </label>
                     </div>
 
                     <div class="col-6">
                         <label>
                             <select class="form-control" name="tableId" required>
-                                <option value="" disabled selected>Select Table</option>
+                                <option value="" disabled selected>Chọn bàn</option>
                                 <th:block th:each="table : ${tables}">
                                     <option th:value="${table.getTid()}">
                                         <span th:text="${table.getTid()}"></span>
@@ -177,10 +187,11 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Tổng</th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -190,17 +201,26 @@
                                     <td th:text="${item.product.price} + ' VND'"></td>
                                     <td>
                                         <label>
-                                            <input style="width: 30%" type="number" min="1" th:value="${item.quantity}"
-                                                   disabled>
+                                            <input style="width: 30%" type="number" min="1" th:value="${item.quantity}" disabled>
                                         </label>
                                     </td>
                                     <td th:text="${item.product.price * item.quantity}"></td>
+                                    <td>
+                                        <div style="width: 20px;
+                                        height: 20px;
+                                        line-height: 16px;
+                                        text-align: center;
+                                        border-radius: 100%;
+                                        background-color: red;">
+                                            <a th:href="@{/management/delete/{pid}(pid=${item.product.pid})}" style="text-decoration: none; color: white">x</a>
+                                        </div>
+                                    </td>
                                 </tr>
                             </th:block>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th colspan="3">Total Price</th>
+                                <th colspan="3">Tổng chi phí</th>
                                 <th th:text="${totalPrice}"></th>
                             </tr>
                             </tfoot>
@@ -209,13 +229,20 @@
                 </div>
                 <div class="row">
                     <div class="col-12 text-right">
-                        <button type="submit" class="btn btn-success">Create Bill</button>
+                        <button type="submit" class="btn btn-success">Tạo Bill</button>
                     </div>
                 </div>
                 <div class="row mt-3" th:if="${successMessage}">
                     <div class="col-12">
                         <div class="alert alert-success" role="alert">
                             <p th:text="${successMessage}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3" th:if="${message}">
+                    <div class="col-12">
+                        <div class="alert alert-danger" role="alert">
+                            <p th:text="${message}"></p>
                         </div>
                     </div>
                 </div>

@@ -12,16 +12,26 @@
         .sidebar {
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
             background-color: rgb(198, 198, 198);
+            padding-top: 20px;
         }
 
-        .nav a {
-            margin: 20px 0;
+        .sidebar .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .nav a {
+            margin: 10px 0;
             background-color: gray;
             border-radius: 15px;
             text-align: center;
             color: white;
             padding: 10px 0;
+            display: block;
         }
 
         .nav a:hover {
@@ -31,10 +41,11 @@
             margin-left: 15%;
             padding: 20px;
         }
+
         .bill-list {
             background-color: rgb(244, 243, 243);
-            margin-left: 10%; /* Adjusted margin to fit sidebar */
-            padding: 20px; /* Added padding for spacing */
+            margin-left: 220px;
+            padding: 20px;
         }
 
         body {
@@ -184,28 +195,37 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-1 sidebar">
+        <div class="col-md-2 sidebar">
             <nav class="nav flex-column">
-                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management">Home</a>
-                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products">Warehouse</a>
-                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Categories</a>
-                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Table List</a>
-                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">All Bill</a>
-                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Job Board</a>
-                <a th:if="${user.getRole_id()==5}" href="#">Statistic</a>
-                <a th:if="${user.getRole_id()==5}" href="/admin/users">Setting</a>
+                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management">Trang chủ</a>
+                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products">Kho</a>
+                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Danh mục</a>
+                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>
+                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">Tất cả Bill</a>
+                <!--                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Bảng công việc</a>-->
+                <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Thống kê</a>
+                <a th:if="${user.getRole_id()==5}" href="/admin/users">Cài đặt</a>
             </nav>
         </div>
         <div class="col-md-10 bill-list">
             <div class="row">
-                <div class="col-3 my-4">
-                    <h5 style="color: #0e4bf1;text-transform: uppercase" th:text="${user.getUsername()}"></h5>
-                </div>
-                <div class="col-3 my-4">
-                    <a href="/staffProfile">PROFILE</a>
-                </div>
-                <div class="col-3 my-4">
-                    <a href="/logout">LOGOUT</a>
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <div class="row" style="border-bottom: 1px solid rgb(184, 184, 184); display: flex;margin-top: 5%">
+                        <div class="col-4" style="color: #0e4bf1; text-transform: uppercase">
+                            <h5 class="username" style="padding: 0 20px;font-weight: bold;"
+                                th:text="${user.getUsername()}"></h5>
+                        </div>
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="" style="border: none">
+                                <a href="/logout" style="padding: 0 20px">
+                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                </a>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -220,18 +240,15 @@
                         </div>
                         <!-- User profile -->
                         <div class="panel panel-default">
-                            <!--                            <div class="panel-heading">-->
-                            <!--                                <h4 class="panel-title">User Profile</h4>-->
-                            <!--                            </div>-->
                             <div class="panel-body">
                                 <div class="profile__avatar">
-                                    <img  th:src="'data:image/jpeg;base64,' + ${user.avatar}"  alt="avatar">
+                                    <img  th:src="${user.avatar}"  alt="avatar">
                                 </div>
                                 <div class="profile__header">
-                                    <h4 th:text="${user.fullname}">Full Name</h4>
+                                    <h4 th:text="${user.fullname}"></h4>
                                     <p class="text-muted" th:text="${user.username}"></p>
                                     <p class="text-muted">
-                                        Cafe và sách, combo hoàn hảo cho một ngày thư giãn.
+                                        Đẹp zai làm web không thể sai! Nếu sai thì vẫn đẹp zai...
                                     </p>
                                 </div>
                             </div>
@@ -240,29 +257,29 @@
                         <!-- User info -->
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">User info</h4>
+                                <h4 class="panel-title">Thông tin tài khoản</h4>
                             </div>
                             <div class="panel-body">
                                 <table class="table profile__table">
                                     <tbody>
                                     <tr>
-                                        <th><strong>Full Name</strong></th>
+                                        <th><strong>Họ tên</strong></th>
                                         <td th:text="${user.fullname}">Full Name</td>
                                     </tr>
                                     <tr>
-                                        <th><strong>Address</strong></th>
+                                        <th><strong>Địa chỉ</strong></th>
                                         <td th:text="${user.address}">Address</td>
                                     </tr>
                                     <tr>
-                                        <th><strong>DOB</strong></th>
-                                        <td th:text="${user.dob}">DOB</td>
+                                        <th><strong>Sinh nhật</strong></th>
+                                        <td th:text="${#dates.format(user.dob, 'yyyy-MM-dd')}">DOB</td>
                                     </tr>
                                     <tr>
                                         <th><strong>Email</strong></th>
                                         <td th:text="${user.email}">Email</td>
                                     </tr>
                                     <tr>
-                                        <th><strong>Phone Number</strong></th>
+                                        <th><strong>Điện thoại</strong></th>
                                         <td th:text="${user.phone}">Phone Number</td>
                                     </tr>
                                     </tbody>
@@ -271,8 +288,8 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
-                                <a href="/staffProfile/staffChangePassword" class="btn btn-default">Change Password</a>
+                                <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#editProfileModal">Chỉnh sửa</button>
+                                <a href="/staffProfile/staffChangePassword" class="btn btn-default">Đổi mật khẩu</a>
                             </div>
                         </div>
                     </div>
@@ -287,7 +304,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <h5 class="modal-title" id="editProfileModalLabel">Chỉnh sửa thông tin</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -297,19 +314,19 @@
                 <form th:action="@{/staffProfile/edit}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="uid" th:value="${user.uid}" />
                     <div class="form-group">
-                        <label for="fullname">Full Name</label>
+                        <label for="fullname">Họ tên</label>
                         <input type="text" id="fullname" name="fullname" class="form-control" th:value="${user.fullname}" required>
                     </div>
                     <div class="form-group">
-                        <label for="address">Address</label>
+                        <label for="address">Địa chỉ</label>
                         <input type="text" id="address" name="address" class="form-control" th:value="${user.address}" required>
                     </div>
                     <div class="form-group">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" class="form-control" th:value="${user.dob}" required>
+                        <label for="dob">Sinh nhật</label>
+                        <input type="text" id="dob" name="dob" class="form-control" th:value="${#dates.format(user.dob, 'yyyy-MM-dd')}" required>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone Number</label>
+                        <label for="phone">Điện thoại</label>
                         <input type="text" id="phone" name="phone" class="form-control" th:value="${user.phone}" required
                                pattern="0[0-9]{9}" title="Số điện thoại bắt đầu bằng số 0 và có 10 số"/>
                         <span th:if="${phoneError}" class="text-danger" th:text="${phoneError}"></span>
@@ -320,11 +337,11 @@
                         <span th:if="${emailError}" class="text-danger" th:text="${emailError}"></span>
                     </div>
                     <div class="form-group">
-                        <label for="avatar">Profile Image</label>
+                        <label for="avatar">Ảnh tài khoản</label>
                         <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*"/>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-custom">Save changes</button>
+                        <button type="submit" class="btn btn-custom">Lưu</button>
                     </div>
                 </form>
             </div>
@@ -346,7 +363,7 @@
             var fileType = file.type;
 
             if (!fileType.startsWith('image/')) {
-                alert('Please select a valid image file.');
+                alert('Vui lòng chọn một tập tin hình ảnh hợp lệ !');
                 isValid = false;
             }
         }

@@ -159,9 +159,9 @@ public class ProductController {
             }
             productService.updateProduct(updatedProduct);
 //  productService.saveProductToDB(file, pname, description, unit, quantity, price, categoryId);
-            redirectAttributes.addFlashAttribute("message", "Product updated successfully");
+            redirectAttributes.addFlashAttribute("message", "Cập nhật sản phẩm thành công !");
         } else {
-            redirectAttributes.addFlashAttribute("message", "Product not found");
+            redirectAttributes.addFlashAttribute("message", "Không tìm thấy sản phẩm !");
         }
         return "redirect:/products";
     }
@@ -191,7 +191,7 @@ public class ProductController {
 
             productService.saveProductToDB(file, product.getPname(), product.getDescription(), product.getUnit(), product.getQuantity(), product.getPrice(), product.getCategoryId());
             session.removeAttribute("imagePath");
-            model.addAttribute("message", "Product added successfully");
+            model.addAttribute("message", "Thêm sản phẩm thành công !");
             return "redirect:/products";
         } catch (ValidationException e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -199,7 +199,7 @@ public class ProductController {
             model.addAttribute("categories", categoryService.getAllCategories());
 
             return "addproduct";
-        }// catch (IOException e) {
+        }
     }
 
     private String saveTemporaryFile(MultipartFile file) throws IOException {
@@ -300,15 +300,15 @@ public class ProductController {
     @PostMapping("/products/import")
     public String importProductsFromFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("messageErr", "Please select an Excel file to upload.");
+            redirectAttributes.addFlashAttribute("messageErr", "Hãy chọn một file excel để đăng tải !");
             return "redirect:/products";
         }
 
         try {
             productService.saveProductsFromExcelFile(file);
-            redirectAttributes.addFlashAttribute("message", "Products imported successfully.");
+            redirectAttributes.addFlashAttribute("message", "Đăng tải sản phẩm  thành công");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("messageErr", "Failed to import products: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("messageErr", "Đăng tải sản phẩm thất bại: " + e.getMessage());
         }
 
         return "redirect:/products";

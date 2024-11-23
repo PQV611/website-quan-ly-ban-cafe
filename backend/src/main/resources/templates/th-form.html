@@ -59,7 +59,7 @@
                      th:each="pageNumber : ${pageNumbers}">
                     <li class="page-item">
                         <a th:href="@{/text-templates/formSearch(size=${DoUongPage.size}, page=${pageNumber})}"
-                           th:text=${pageNumber} th:class="${pageNumber==DoUongPage.number + 1} ? active">
+                           th:text="${pageNumber}" th:class="${pageNumber==DoUongPage.number + 1} ? active">
 
                         </a>
                     </li>

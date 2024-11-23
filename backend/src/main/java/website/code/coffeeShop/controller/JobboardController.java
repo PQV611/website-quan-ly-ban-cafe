@@ -30,7 +30,7 @@ public class JobboardController {
     public String viewJobboard(
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "size", defaultValue = "6") int size,
             Model model, Principal principal) {
 
         // Fetch user information if logged in
@@ -82,7 +82,7 @@ public class JobboardController {
                               @RequestParam("shift") int shift,
                               RedirectAttributes redirectAttributes) {
         jobboardService.updateShift(jobboardId, shift);
-        redirectAttributes.addFlashAttribute("message", "Shift updated successfully!");
+        redirectAttributes.addFlashAttribute("message", "Cập nhật ca làm thành công!");
         return "redirect:/management/jobboard"; // Redirect to the job board page
     }
 }

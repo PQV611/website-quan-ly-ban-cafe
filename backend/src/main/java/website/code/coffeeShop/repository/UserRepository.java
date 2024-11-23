@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import website.code.coffeeShop.model.Users;
+
+import java.util.Date;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer> {
@@ -34,7 +37,7 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
     @Query(value = "INSERT INTO Users (fullname, dob, email, phone, address, avatar, username, pass, role_id, status)" +
             "VALUES (:fullname, :dob, :email, :phone, :address, :avatar, :username, :pass, :role_id, :status)", nativeQuery = true)
     void insertUsers(@Param("fullname") String fullname,
-                     @Param("dob") String dob,
+                     @Param("dob") Date dob,
                      @Param("email") String email,
                      @Param("phone") String phone,
                      @Param("address") String address,

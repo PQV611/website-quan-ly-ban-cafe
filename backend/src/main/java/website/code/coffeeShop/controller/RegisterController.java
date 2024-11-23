@@ -32,7 +32,7 @@ public class RegisterController {
         boolean hasErrors = false;
 
         if (user.getUsername() == null || user.getPass() == null || user.getEmail() == null) {
-            model.addAttribute("generalError", "Username, password, and email cannot be null");
+            model.addAttribute("generalError", "Tài khoản và mật khẩu không được để trống !");
             hasErrors = true;
         }
 
@@ -59,7 +59,7 @@ public class RegisterController {
         try {
             userService.saveUser(user);
         } catch (Exception e) {
-            model.addAttribute("generalError", "Failed to register user: " + e.getMessage());
+            model.addAttribute("generalError", "Đăng kí tài khoản thất bại: " + e.getMessage());
             model.addAttribute("user", user);
             return "register";
         }

@@ -1,6 +1,7 @@
 package website.code.coffeeShop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import website.code.coffeeShop.service.UserService;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Base64;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/staffProfile")
@@ -31,7 +33,7 @@ public class StaffProfileController {
 
     @PostMapping("/edit")
     public String editStaffProfile(@RequestParam("fullname") String fullname,
-                                   @RequestParam("dob") String dob,
+                                   @RequestParam("dob") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dob,
                                    @RequestParam("address") String address,
                                    @RequestParam("email") String email,
                                    @RequestParam("phone") String phone,
@@ -63,7 +65,7 @@ public class StaffProfileController {
                     existingUser.setAvatar(avatarBase64);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    redirectAttributes.addFlashAttribute("message", "Upload avatar thất bại");
+                    redirectAttributes.addFlashAttribute("message", "Đăng tải avatar thất bại");
                     return "redirect:/staffProfile";
                 }
             }
@@ -92,25 +94,25 @@ public class StaffProfileController {
 
         // Check if the current password is correct
         if (!userService.checkPassword(user, currentPassword)) {
-            redirectAttributes.addFlashAttribute("error", "Current password is incorrect.");
+            redirectAttributes.addFlashAttribute("error", "Nhập sai mật khẩu !");
             return "redirect:/staffProfile/staffChangePassword";
         }
 
         // Check if the new password and confirm password match
         if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("error", "New password and confirm password do not match.");
+            redirectAttributes.addFlashAttribute("error", "Mật khẩu mới và xác nhận mật khẩu không giống nhau !");
             return "redirect:/staffProfile/staffChangePassword";
         }
 
         // Check if the new password is not the same as the current password
         if (newPassword.equals(currentPassword)) {
-            redirectAttributes.addFlashAttribute("error", "New password cannot be the same as the current password.");
+            redirectAttributes.addFlashAttribute("error", "Mật khẩu mới không thể giống mật khẩu cũ !");
             return "redirect:/staffProfile/staffChangePassword";
         }
 
         // Update the password
         userService.updatePassword(user, newPassword);
-        redirectAttributes.addFlashAttribute("message", "Password changed successfully!");
+        redirectAttributes.addFlashAttribute("message", "Đổi mật khẩu thành công !");
 
         return "redirect:/staffProfile";
     }

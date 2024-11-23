@@ -23,17 +23,17 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Image</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
+            <th>Ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Tổng</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${billDetails}">
             <td>
-                <img th:src="'data:image/jpeg;base64,' + ${item.product.image}" alt="Product" width="100">
+                <img th:src="${item.product.image}" alt="Product" width="100">
             </td>
             <td th:text="${item.product.pname}"></td>
             <td th:text="${item.quantity}"></td>

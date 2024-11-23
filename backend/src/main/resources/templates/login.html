@@ -162,23 +162,23 @@
 </div>
 <br>
 <div class="login">
-    <h2>Login</h2>
+    <h2>ĐĂNG NHẬP</h2>
     <form th:action="@{/login}" method="post">
-        <input type="text" name="username" placeholder="username" required><br>
-        <input type="password" name="password" placeholder="password" required style="margin-left: 5px;"><br>
+        <input type="text" name="username" placeholder="Tài khoản" required><br>
+        <input type="password" name="password" placeholder="Mật khẩu" required style="margin-left: 5px;"><br>
         <input type="submit" value="Login">
         <div class="text-center mt-3 register-link">
-            <a class="text-muted" th:href="@{/forgot-password}">Forgot password?</a>
+            <a class="text-muted" th:href="@{/forgot-password}">Quên mật khẩu?</a>
         </div>
         <div th:if="${param.error}" class="error-message">
-            <p>Invalid username or password</p>
+            <p>Sai tài khoản hoặc mật khẩu!</p>
         </div>
     </form>
     <div th:if="${param.logout}" class="logout-message">
-        <p>You have been logged out successfully.</p>
+        <p>Đăng xuất thành công.</p>
     </div>
     <div class="register-link">
-        <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+        <p>Không có tài khoản? <a th:href="@{/register}">Đăng kí ở đây.</a></p>
     </div>
 </div>
 </body>

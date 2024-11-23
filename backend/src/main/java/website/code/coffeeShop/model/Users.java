@@ -1,8 +1,10 @@
 package website.code.coffeeShop.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -17,7 +19,8 @@ public class Users {
     private String fullname;
 
     @Column(name = "dob")
-    private String dob;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
 
     @Column(name = "email")
     private String email;
@@ -45,7 +48,7 @@ public class Users {
 
     public Users() {}
 
-    public Users(int uid, String fullname, String dob, String email, String phone, String address, String avatar, String username, String pass, int role_id, int status) {
+    public Users(int uid, String fullname, Date dob, String email, String phone, String address, String avatar, String username, String pass, int role_id, int status) {
         this.uid = uid;
         this.fullname = fullname;
         this.dob = dob;

@@ -65,14 +65,14 @@ public class CategoryController {
     @PostMapping("/add")
     public String addCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
         categoryService.save(category);
-        redirectAttributes.addFlashAttribute("message", "Category added successfully!");
+        redirectAttributes.addFlashAttribute("message", "Thêm danh mục thành công!");
         return "redirect:/categories";
     }
 
     @PostMapping("/update")
     public String updateCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
         categoryService.update(category);
-        redirectAttributes.addFlashAttribute("message", "Category updated successfully!");
+        redirectAttributes.addFlashAttribute("message", "Cập nhật danh mục thành công!");
         return "redirect:/categories";
     }
 
@@ -80,10 +80,10 @@ public class CategoryController {
     public String deleteCategory(@PathVariable int cid, RedirectAttributes redirectAttributes) {
         try {
             categoryService.deleteById(cid);
-            redirectAttributes.addFlashAttribute("message", "Category deleted successfully!");
+            redirectAttributes.addFlashAttribute("message", "Xóa danh mục thành công!");
         } catch (DataIntegrityViolationException e) {
             // Xử lý ngoại lệ nếu danh mục còn đang được sử dụng trong bill
-            redirectAttributes.addFlashAttribute("error", "Sản phẩm còn được đang sử dụng trong bill");
+            redirectAttributes.addFlashAttribute("error", "Sản phẩm còn đang được sử dụng trong bill !");
         }
         return "redirect:/categories";
     }

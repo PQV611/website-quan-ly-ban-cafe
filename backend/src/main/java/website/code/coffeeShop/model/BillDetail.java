@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "BillDetail")
+@Table(name = "billdetail")
 public class BillDetail {
     @EmbeddedId
     private BillDetailId id;

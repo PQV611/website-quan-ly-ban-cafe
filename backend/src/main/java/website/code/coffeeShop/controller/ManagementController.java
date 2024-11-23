@@ -88,6 +88,7 @@ public class ManagementController {
         return "management";
     }
 
+
     @GetMapping("/management/products/{cid}")
     public String productByCategory(@PathVariable int cid, Model model,
                                     @RequestParam("page") Optional<Integer> page,
@@ -121,11 +122,19 @@ public class ManagementController {
     @GetMapping("/management/products/{pid}/addtocart")
     public String addToCart(@PathVariable int pid, @RequestParam(value = "quantity", defaultValue = "1") int quantity, Model model) {
         Optional<Product> productOptional = productService.getProductById(pid);
-        if (productOptional.isPresent()) {
+        if (productOptional.isPresent() && productOptional.get().getQuantity() >= quantity) {
             cartService.addToCart(productOptional.get(), quantity);
         } else {
-            model.addAttribute("error", "Product not found");
+            model.addAttribute("error", "Không tìm thấy");
+            model.addAttribute("message", "Số lượng sản phẩm không đủ rồi!");
         }
+        return "redirect:/management";
+    }
+
+    @GetMapping("/management/delete/{pid}")
+    public String delete(@PathVariable int pid, RedirectAttributes redirectAttributes) {
+//        Optional<Product> productOptional = productService.getProductById(pid);
+        cartService.deleteProductFromCart(pid);
         return "redirect:/management";
     }
 
@@ -159,10 +168,12 @@ public class ManagementController {
 
             // Get cart items and calculate total cost
             List<CartItem> cartItems = cartService.getCartItems();
+
             float totalCost = 0;
             for (int i = 0; i < cartItems.size(); i++) {
                 CartItem item = cartItems.get(i);
                 totalCost += item.getProduct().getPrice() * item.getQuantity();
+
             }
 
             // Create a new Bill
@@ -177,6 +188,11 @@ public class ManagementController {
                 BillDetail billDetail = new BillDetail(bill.getBillId(), item.getProduct().getPid(), item.getQuantity(), item.getProduct().getPrice());
                 billDetailService.save(billDetail);
                 logger.info("BillDetail saved for billId: {}, productId: {}, quantity: {}, price: {}", bill.getBillId(), item.getProduct().getPid(), item.getQuantity(), item.getProduct().getPrice());
+
+                Product product = item.getProduct();
+                int newQuantity = product.getQuantity() - item.getQuantity();
+                product.setQuantity(newQuantity);
+                productService.updateProduct(product);
             }
 
             // Clear the cart
@@ -186,7 +202,7 @@ public class ManagementController {
             model.addAttribute("categories", categoryService.getAllCategories());
             model.addAttribute("products", productPage.getContent());
             model.addAttribute("currentPage", currentPage);
-            model.addAttribute("successMessage", "Bill created successfully!");
+            model.addAttribute("successMessage", "Tạo Bill thành công!");
         }
 
         return "management";
@@ -251,7 +267,7 @@ public class ManagementController {
 
         // Validate the status value (1 for paid, 0 for not paid)
         if (status != 0 && status != 1) {
-            redirectAttributes.addAttribute("error", "Invalid status value");
+            redirectAttributes.addAttribute("error", "Giá trị trạng thái không hợp lệ");
             return "redirect:/management/allbill";
         }
 
@@ -261,9 +277,9 @@ public class ManagementController {
             bill.setStatus(status);
             billService.save(bill);
             logger.info("Updated status for billId: {} to status: {}", billId, status);
-            redirectAttributes.addFlashAttribute("success", "Updated status of bill successfully");
+            redirectAttributes.addFlashAttribute("success", "Cập nhật trạng thái của Bill thành công!");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Bill not found");
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy Bill");
         }
 
         return "redirect:/management/allbill";
@@ -273,9 +289,10 @@ public class ManagementController {
     @ResponseBody
     public ResponseEntity<InputStreamResource> exportBillToExcel(@RequestParam("billId") int billId) throws IOException {
         Bill bill = billService.findById(billId);
+        int uid = bill.getUserId();
         List<BillDetail> billDetails = billDetailService.findByBillId(billId);
 
-        ByteArrayInputStream in = excelExportService.exportBillToExcel(bill, billDetails);
+        ByteArrayInputStream in = excelExportService.exportBillToExcel(bill,uid, billDetails);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=bill_" + billId + ".xlsx");

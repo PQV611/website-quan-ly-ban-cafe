@@ -4,24 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Bills</title>
+    <title>Hóa đơn</title>
     <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         .sidebar {
             height: 100vh;
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
             background-color: rgb(198, 198, 198);
-            z-index: 1000;
+            padding-top: 20px;
         }
 
-        .nav a {
-            margin: 20px 0;
+        .sidebar .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .nav a {
+            margin: 10px 0;
             background-color: gray;
             border-radius: 15px;
             text-align: center;
             color: white;
             padding: 10px 0;
+            display: block;
         }
 
         .nav a:hover {
@@ -30,6 +44,8 @@
 
         .bill-list {
             background-color: rgb(244, 243, 243);
+            margin-left: 220px;
+            padding: 20px;
         }
 
 
@@ -67,38 +83,52 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-1 sidebar">
+        <div class="col-md-2 sidebar">
             <nav class="nav flex-column">
-                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management">Home</a>
-                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products">Warehouse</a>
-                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Categories</a>
-                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Table List</a>
-                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">All Bill</a>
-                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Job Board</a>
-                <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Statistic</a>
-                <a th:if="${user.getRole_id()==5}" href="/admin/users">Setting</a>
+                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management">Trang chủ</a>
+                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products">Kho</a>
+                <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Danh mục</a>
+                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>
+                <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill" style="background-color: black; color: white">Tất cả Bill</a>
+<!--                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Bảng công việc</a>-->
+                <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Thống kê</a>
+                <a th:if="${user.getRole_id()==5}" href="/admin/users">Cài đặt</a>
             </nav>
         </div>
-        <div class="col-md-12 offset-md-1 bill-list">
+        <div class="col-md-10 offset-md-1 bill-list">
             <div class="row">
-                <div class="col-2">
-                    <h1 class="my-4">Bills</h1>
-                </div>
-                <div class="col-4 my-4">
-                    <form action="/management/allbill" method="get" class="d-flex">
-                        <input type="date" name="createdTime" value="${createdTime}" placeholder="Select date"/>
-                        <input type="submit" value="Search"/>
-                    </form>
+                <div class="col-6">
+                    <h1 class="my-4">Hóa đơn</h1>
+                    <div class="col-4 my-4">
+                        <form action="/management/allbill" method="get" class="d-flex">
+                            <input type="date" name="createdTime" value="${createdTime}" placeholder="Select date"/>
+                            <input type="submit" value="Tìm kiếm"/>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="col-2 my-4">
-                    <h5 style="color: #0e4bf1;text-transform: uppercase" th:text="${user.getUsername()}"></h5>
-                </div>
-                <div class="col-2 my-4">
-                    <a href="/staffProfile">PROFILE</a>
-                </div>
-                <div class="col-2 my-4">
-                    <a href="#">LOGOUT</a>
+
+                <div class="col-md-6">
+                    <div class="row" style="border-bottom: 1px solid rgb(184, 184, 184); display: flex;margin-top: 5%">
+                        <div class="col-4" style="color: #0e4bf1; text-transform: uppercase">
+                            <h5 class="username" style="padding: 0 20px;font-weight: bold;"
+                                th:text="${user.getUsername()}"></h5>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="" style="border: none">
+                                <a href="/staffProfile" style="padding: 0 20px">
+                                    <i class="fas fa-user"></i> Cá nhân
+                                </a>
+                            </button>
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="" style="border: none">
+                                <a href="/logout" style="padding: 0 20px">
+                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                </a>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -118,22 +148,21 @@
             <div class="row">
                 <div class="col-12">
                     <div th:if="${bills.isEmpty()}">
-                        <p class="text-center">No bills were created</p>
+                        <p class="text-center">Không có hóa đơn nào được tạo</p>
                     </div>
 
                     <div th:unless="${bills.isEmpty()}">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th scope="col">Bill No</th>
-                                <th scope="col">Created Time</th>
-                                <th scope="col">Number of guest</th>
-                                <th scope="col">Table</th>
-                                <th scope="col">Total Price</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                                <th scope="col">Export Excel</th>
-
+                                <th scope="col">Mã Bill</th>
+                                <th scope="col">Ngày tạo</th>
+                                <th scope="col">Số khách hàng</th>
+                                <th scope="col">Bàn</th>
+                                <th scope="col">Tổng giá</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Hoạt động</th>
+                                <th scope="col">Tải Excel</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -148,13 +177,9 @@
                                 <td th:text="${bill.getTableId()}"></td>
                                 <td th:text="${bill.getTotalCost()} + ' VND'"></td>
                                 <td>
-                                <span th:text="${bill.status == 1 ? 'Paid' : 'Not Paid'}"
+                                <span th:text="${bill.status == 1 ? 'Đã thanh toán' : 'Chưa thanh toán'}"
                                       th:classappend="${bill.status == 1 ? 'text-success' : 'text-danger'}"></span>
                                 </td>
-                                <!--                                <td>-->
-                                <!--                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#billDetailModal"-->
-                                <!--                                            th:attr="data-bill-id=${bill.getBillId()}">Detail</button>-->
-                                <!--                                </td>-->
                                 <td>
                                     <form action="#" th:action="@{/management/updateBillStatus}" method="post">
                                         <input type="hidden" name="billId" th:value="${bill.billId}"/>
@@ -162,14 +187,14 @@
                                         <!-- Radio button for "Not Paid" -->
                                         <input type="radio" id="notPaid" name="status" value="0"
                                                th:checked="${bill.status == 0}" class="status-radio"/>
-                                        <label for="notPaid" class="status-label not-paid">Not Paid</label>
+                                        <label for="notPaid" class="status-label not-paid">Chưa thanh toán</label>
 
                                         <!-- Radio button for "Paid" -->
                                         <input type="radio" id="paid" name="status" value="1"
                                                th:checked="${bill.status == 1}" class="status-radio"/>
-                                        <label for="paid" class="status-label paid">Paid</label>
+                                        <label for="paid" class="status-label paid">Đã thanh toán</label>
 
-                                        <button type="submit" class="btn btn-primary">Check</button>
+                                        <button type="submit" class="btn btn-primary">Kiểm tra</button>
                                     </form>
                                 </td>
                                 <td>

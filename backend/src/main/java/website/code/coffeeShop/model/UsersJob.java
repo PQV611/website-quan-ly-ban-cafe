@@ -39,7 +39,7 @@ public class UsersJob {
     private String pass;
 
     @ManyToOne
-    @JoinColumn(name = "rolde_id")
+    @JoinColumn(name = "role_id")
     private Roles role;
 
     @Column(name = "status")
