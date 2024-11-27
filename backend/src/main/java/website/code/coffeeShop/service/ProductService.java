@@ -233,7 +233,7 @@ public class ProductService {
                 if (category != null) {
                     product.setCategoryId(category.getCid());
                 } else {
-                    throw new RuntimeException("Category not found: " + categoryName);
+                    throw new RuntimeException("Không tìm thấy danh mục: " + categoryName);
                 }
 
                 products.add(product);

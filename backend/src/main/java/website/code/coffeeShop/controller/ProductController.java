@@ -122,19 +122,6 @@ public class ProductController {
 
         // Kiểm tra nếu tên sản phẩm đã tồn tại cho sản phẩm khác
         if (productService.isProductNameExistsForOther(pid, pname)) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "Tên sản phẩm đã tồn tại");
-//
-//            // Lưu lại thông tin sản phẩm đã nhập để hiển thị lại trong modal
-//            Product product = new Product();
-//            product.setPid(pid);
-//            product.setPname(pname);
-//            product.setDescription(description);
-//            product.setUnit(unit);
-//            product.setQuantity(quantity);
-//            product.setPrice(price);
-//            product.setCategoryId(categoryId);
-
-            //redirectAttributes.addFlashAttribute("product", product);
             return "redirect:/products";
         }
 

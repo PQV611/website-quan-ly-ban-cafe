@@ -161,9 +161,9 @@ public class AdminController {
             existingUser.setStatus(user.getStatus());
             existingUser.setRole_id(user.getRole_id());
             userService.save1(existingUser);
-            redirectAttributes.addFlashAttribute("message", "User status and role updated successfully!");
+            redirectAttributes.addFlashAttribute("message", "Cập nhật thành công!");
         } else {
-            redirectAttributes.addFlashAttribute("error", "User not found!");
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy người dùng!");
         }
         return "redirect:/admin/users";
     }
@@ -171,7 +171,7 @@ public class AdminController {
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         userService.deleteById(id);
-        redirectAttributes.addFlashAttribute("message", "User deleted successfully!");
+        redirectAttributes.addFlashAttribute("message", "Xóa người dùng thành công!");
         return "redirect:/admin/users";
     }
 

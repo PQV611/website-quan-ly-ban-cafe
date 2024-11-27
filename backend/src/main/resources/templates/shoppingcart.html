@@ -21,37 +21,6 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
-
-        /*body {*/
-        /*    font-family: 'Manrope', sans-serif;*/
-        /*    background: #eee;*/
-        /*}*/
-
-        /*.size span {*/
-        /*    font-size: 11px;*/
-        /*}*/
-
-        /*.color span {*/
-        /*    font-size: 11px;*/
-        /*}*/
-
-        /*.pay-button {*/
-        /*    color: #fff;*/
-        /*}*/
-
-        /*.pay-button:hover {*/
-        /*    color: #fff;*/
-        /*}*/
-
-        /*.pay-button:focus {*/
-        /*    color: #fff;*/
-        /*    box-shadow: none;*/
-        /*}*/
-
-        /*.qty i {*/
-        /*    font-size: 11px;*/
-        /*}*/
-
     </style>
 </head>
 
@@ -60,34 +29,49 @@
 
 <div class="tm-top-header">
     <div class="container">
-        <div class="row">
-            <div class="tm-top-header-inner">
-                <div class="tm-logo-container">
-                    <img src="/img/logo.png" alt="Logo" class="tm-site-logo">
-                    <h1 class="tm-site-name tm-handwriting-font">Coffee Shop</h1>
-                </div>
-                <div class="mobile-menu-icon">
+        <div class="row align-items-center tm-top-header-inner">
+            <div class="col-md-4 tm-logo-container d-flex align-items-center">
+                <img src="/img/logo.png" alt="Logo" class="tm-site-logo mr-3">
+                <h1 class="tm-site-name tm-handwriting-font m-0">Coffee Shop</h1>
+            </div>
+            <div class="col-md-8 d-flex justify-content-end align-items-center">
+                <div class="mobile-menu-icon d-md-none">
                     <i class="fa fa-bars"></i>
                 </div>
-                <nav class="tm-nav">
-                    <ul>
-                        <li><a th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Trang chủ</a></li>
-                        <li><a th:classappend="${currentPage == 'menu'} ? 'active'" href="/menu">Menu</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a>
+                <nav class="tm-nav d-none d-md-flex">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Trang chủ</a>
                         </li>
-                        <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
-                        <li th:if="${user != null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:classappend="${currentPage == 'menu'} ? 'active'" href="/menu">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Liên hệ</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('isAnonymous()')}">
+                            <a class="nav-link" href="/register">Đăng ký</a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('isAnonymous()')}">
+                            <a class="nav-link" href="/login">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item position-relative" th:if="${user != null}">
                             <a th:classappend="${currentPage == 'cart'} ? 'active'"
-                               class="nav-icon position-relative text-decoration-none" href="/cart">
-                                <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                                <span
-                                        class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"
-                                        th:text="${cartItems.size()}"></span>
+                               class="nav-link position-relative text-decoration-none" href="/cart">
+                                <i class="fa fa-cart-arrow-down text-dark"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark"
+                                      th:text="${cartItems.size()}">
+                        </span>
                             </a>
                         </li>
+<!--                        <li class="nav-item" th:if="${user != null}">-->
+<!--                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown"-->
+<!--                               role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                                <i class="bi bi-person-circle me-2"></i>-->
+<!--                                <span style="color: yellow" th:text="${user.getUsername()}"></span>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <li th:classappend="${currentPage == 'profile'} ? 'active'" th:if="${user != null}">
-                            <!--                            <span th:if="${user != null}"><a style="color: yellow"></a></span>-->
                             <a href="/profile">
                                 <i class="bi bi-person-circle"></i>
                                 <span style="color: yellow" th:text="${user.getUsername()}"></span>
@@ -98,6 +82,7 @@
                 </nav>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -115,8 +100,9 @@
                                 <div class="product p-3">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <img class="img-fluid mx-auto d-block image"
-                                                 th:src="@{${cartItemWithProduct.product.image}}" alt="Product Image" style="border-radius: 9px">
+<!--                                            <img class="img-fluid mx-auto d-block image"-->
+<!--                                                 th:src="@{${cartItemWithProduct.product.image}}" alt="Product Image" style="border-radius: 9px">-->
+                                            <img class="img-fluid mx-auto d-block image" th:src="@{'data:image/jpeg;base64,' + ${cartItemWithProduct.product.image}}" alt="Product Image" style="border-radius: 9px"/>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="info">
@@ -169,12 +155,10 @@
                     <div class="col-md-12 col-lg-4">
                         <div class="summary">
                             <h3>TỔNG</h3>
-                            <div class="summary-item"><span class="text">Giảm giá</span><span class="price">0%</span>
-                            </div>
+<!--                            <div class="summary-item"><span class="text">Giảm giá</span><span class="price">0%</span></div>-->
                             <div class="summary-item"><span class="text">Phí vận chuyển</span><span
                                     class="price">Free Ship</span></div>
-                            <div class="summary-item"><span class="text">Tổng cộng:</span><span class="price"
-                                                                                           th:text="${totalPrice}+' VND'"></span>
+                            <div class="summary-item"><span class="text">Tổng cộng:</span><span class="price" th:text="${totalPrice}+' VND'"></span>
                             </div>
                             <button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">
                                 <a href="/cart/checkout" style="color: white">Thanh toán</a>
@@ -190,7 +174,7 @@
 <footer>
     <div class="tm-black-bg">
         <div class="container">
-            <div class="row margin-bottom-60">
+            <div class="row">
                 <nav class="col-lg-3 col-md-3 tm-footer-nav tm-footer-div">
                     <h3 class="tm-footer-div-title">MENU CHÍNH</h3>
                     <ul>

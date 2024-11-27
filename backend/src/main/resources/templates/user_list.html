@@ -358,7 +358,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                                    <h5 class="modal-title" id="addUserModalLabel">Thêm tài khoản</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -366,11 +366,11 @@
                                 <div class="modal-body">
                                     <form id="addUserForm" th:action="@{/admin/users/add}" method="post">
                                         <div class="form-group">
-                                            <label for="fullname">Fullname</label>
+                                            <label for="fullname">Họ tên</label>
                                             <input type="text" name="fullname" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="dob">Date of Birth</label>
+                                            <label for="dob">Sinh nhật</label>
                                             <input type="date" id="dob" name="dob" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
@@ -378,43 +378,43 @@
                                             <input type="email" name="email" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="phone">Phone</label>
+                                            <label for="phone">Điện thoại</label>
                                             <input type="text" id="phone" name="phone" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="address">Address</label>
+                                            <label for="address">Địa chỉ</label>
                                             <input type="text" id="address" name="address" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="username">Username</label>
+                                            <label for="username">Tên người dùng</label>
                                             <input type="text" name="username" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="pass">Password</label>
+                                            <label for="pass">Mật khẩu</label>
                                             <input type="password" id="pass" name="pass" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="confirm_password">Confirm Password</label>
+                                            <label for="confirm_password">Xác nhận mật khẩu</label>
                                             <input type="password" id="confirm_password" name="confirm_password" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="role_id">Role</label>
+                                            <label for="role_id">Phân quyền</label>
                                             <select name="role_id" class="form-control">
-                                                <option value="1">Customer</option>
-                                                <option value="2">Warehouse staff</option>
-                                                <option value="3">Waiter</option>
-                                                <option value="4">Cashier</option>
-                                                <option value="5">Shop owner (Admin)</option>
+                                                <option value="1">Khách hàng</option>
+                                                <option value="2">Nhân viên kho</option>
+                                                <option value="3">Bồi bàn</option>
+                                                <option value="4">Thu ngân</option>
+                                                <option value="5">Chủ quán (Admin)</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="status">Status</label>
+                                            <label for="status">Trạng thái</label>
                                             <select name="status" class="form-control">
                                                 <option value="1">Active</option>
                                                 <option value="0">Inactive</option>
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-success">Save</button>
+                                        <button type="submit" class="btn btn-success">Lưu</button>
                                     </form>
                                 </div>
                             </div>
@@ -426,7 +426,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
+                                    <h5 class="modal-title" id="updateUserModalLabel">Cập nhật người dùng</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -435,7 +435,7 @@
                                     <form id="updateUserForm" th:action="@{/admin/users/update}" method="post">
                                         <input type="hidden" id="uid" name="uid"/>
                                         <div class="form-group">
-                                            <label for="fullname">Fullname</label>
+                                            <label for="fullname">Họ tên</label>
                                             <input type="text" id="fullname" name="fullname" class="form-control" readonly/>
                                         </div>
                                         <div class="form-group">
@@ -443,27 +443,27 @@
                                             <input type="email" id="email" name="email" class="form-control" readonly/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="username">Username</label>
+                                            <label for="username">Tên người dùng</label>
                                             <input type="text" id="username" name="username" class="form-control" readonly/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="role_id">Role</label>
+                                            <label for="role_id">Phân quyền</label>
                                             <select id="role_id" name="role_id" class="form-control">
-                                                <option value="1">Customer</option>
-                                                <option value="2">Warehouse staff</option>
-                                                <option value="3">Waiter</option>
-                                                <option value="4">Cashier</option>
-                                                <option value="5">Shop owner (Admin)</option>
+                                                <option value="1">Khách hàng</option>
+                                                <option value="2">Nhân viên kho</option>
+                                                <option value="3">Bồi bàn</option>
+                                                <option value="4">Thu ngân</option>
+                                                <option value="5">Chủ quản (Admin)</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="status">Status</label>
+                                            <label for="status">Trạng thái</label>
                                             <select id="status" name="status" class="form-control">
                                                 <option value="1">Active</option>
                                                 <option value="0">Inactive</option>
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-success">Save</button>
+                                        <button type="submit" class="btn btn-success">Lưu</button>
                                     </form>
                                 </div>
                             </div>

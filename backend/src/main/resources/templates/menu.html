@@ -311,7 +311,7 @@
                                 <i class="fas fa-coffee"></i> Không tìm thấy sẩn phẩm
                             </div>
                             <div class="tm-product" th:each="product : ${products}">
-                                <img th:src="${product.image}" class="product-image" alt="Product">
+                                <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image"/>
                                 <div class="tm-product-text">
                                     <h3 class="tm-product-title">
                                         <a th:href="@{/product/{pid}(pid = ${product.pid})}" th:text="${product.pname}"></a>

@@ -175,10 +175,22 @@
                     <td th:text="${product.unit}"></td>
                     <td th:text="${product.quantity}"></td>
                     <td th:text="${product.price}"></td>
-                    <td><img th:src="${product.image}" alt="Product Image" width="100" height="100"/></td>
+                    <td>
+<!--                        <img th:src="@{${product.image}}" alt="Product Image" width="100" height="100"/>-->
+                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image" width="100" height="100"/>
+
+                    </td>
+
                     <td>
                         <button class="btn btn-primary btn-update"
-                                th:attr="data-pid=${product.pid}, data-pname=${product.pname}, data-description=${product.description}, data-unit=${product.unit}, data-quantity=${product.quantity}, data-price=${product.price}, data-image=${product.image}, data-categoryId=${product.categoryId}">
+                                th:attr="data-pid=${product.pid},
+                                data-pname=${product.pname},
+                                data-description=${product.description},
+                                data-unit=${product.unit},
+                                data-quantity=${product.quantity},
+                                data-price=${product.price},
+                                data-image=${product.image},
+                                data-categoryId=${product.categoryId}">
                             Cập nhật
                         </button>
                         <a class="btn btn-danger" th:href="@{/products/delete/{id}(id=${product.pid})}"
@@ -229,9 +241,8 @@
                         <div class="modal-body">
                             <form th:action="@{/products/import}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <label for="file">Select Excel file</label>
-                                    <input type="file" name="file" id="files" class="form-control" accept=".xlsx, .xls"
-                                           required>
+                                    <label for="file">Chọn file excel</label>
+                                    <input type="file" name="file" id="files" class="form-control" accept=".xlsx, .xls" required>
                                 </div>
                                 <button type="submit" class="btn btn-success">Đăng tải</button>
                             </form>
@@ -285,7 +296,9 @@
 
                                 <div class="form-group">
                                     <label for="file">Hình ảnh</label>
-                                    <input type="file" id="file" name="file" class="form-control"/>
+<!--                                    <input type="file" id="file" name="file" class="form-control"/>-->
+                                    <input type="file" class="form-control" id="file" name="file" accept="image/*" onchange="previewImage(event)">
+                                    <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="categoryId">Tên danh mục</label>
@@ -304,6 +317,18 @@
     </div>
 </div>
 <script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
     $(document).ready(function () {
         // Hiển thị thông báo thành công trong 3 giây
         setTimeout(function () {
@@ -326,6 +351,8 @@
             $('#quantity').val(quantity);
             $('#price').val(price);
             $('#image').val(image);
+            // $('#preview').attr('src', 'data:image/jpeg;base64,' + image);
+
             $('#categoryId').val(categoryId);
             $('#updateProductModal').modal('show');
         });

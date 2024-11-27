@@ -191,6 +191,9 @@ public class ManagementController {
 
                 Product product = item.getProduct();
                 int newQuantity = product.getQuantity() - item.getQuantity();
+                if (newQuantity < 0) {
+                    throw new IllegalArgumentException("Số lượng sản phẩm không đủ trong kho!");
+                }
                 product.setQuantity(newQuantity);
                 productService.updateProduct(product);
             }

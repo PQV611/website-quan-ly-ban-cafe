@@ -130,11 +130,22 @@ public class CartController {
             Bill bill = new Bill(phone, address, new Date(), 0, totalPrice, 0, user.getUid(), status, 0);
             billService.save(bill);
 
+//            int totalQuantity = 0;
             for (int i = 0; i < cartItems.size(); i++) {
                 CartItemService.CartItemWithProduct item = cartItems.get(i);
                 BillDetail billDetail = new BillDetail(bill.getBillId(), item.getProduct().getPid(), item.getCartItem().getQuantity(), item.getProduct().getPrice());
+//                totalQuantity += item.getProduct().getQuantity();
                 billDetailService.save(billDetail);
                 logger.info("BillDetail saved for billId: {}, productId: {}, quantity: {}, price: {}", bill.getBillId(), item.getProduct().getPid(), item.getCartItem().getQuantity(), item.getProduct().getPrice());
+            }
+            for (CartItemService.CartItemWithProduct item : cartItems) {
+                Product product = item.getProduct();
+                int newQuantity = product.getQuantity() - item.getCartItem().getQuantity();
+                if (newQuantity < 0) {
+                    throw new IllegalArgumentException("Số lượng sản phẩm không đủ trong kho!");
+                }
+                product.setQuantity(newQuantity);
+                productService.updateProduct(product);
             }
 
             cartItemService.clearCart();
