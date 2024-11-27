@@ -254,6 +254,15 @@ public class ManagementController {
         Bill bill = billService.findById(billId);
         List<BillDetail> billDetails = billDetailService.findByBillId(billId);
         float totalCost = billService.calculateTotalCost(billId);
+
+        billDetails.forEach(billDetail -> {
+            Product product = billDetail.getProduct();
+            if (product != null && product.getImage() != null) {
+                // Nếu cần, kiểm tra và xử lý thêm trước khi đẩy vào giao diện
+                product.setImage("data:image/jpeg;base64," + product.getImage());
+            }
+        });
+
         model.addAttribute("bill", bill);
         model.addAttribute("billDetails", billDetails);
         model.addAttribute("totalCost", totalCost);

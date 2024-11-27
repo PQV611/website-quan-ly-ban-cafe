@@ -10,6 +10,7 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/templatemo-style.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -75,9 +76,9 @@
                 <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management">Trang chủ</a>
                 <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/products" style="background-color: black; color: white">Kho</a>
                 <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Danh mục</a>
-<!--                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>-->
+                <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>
                 <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">Tất cả Bill</a>
-                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Bảng công việc</a>
+<!--                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Bảng công việc</a>-->
                 <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Thống kê</a>
                 <a th:if="${user.getRole_id()==5}" href="/admin/users">Cài đặt</a>
             </nav>
@@ -298,7 +299,22 @@
                                     <label for="file">Hình ảnh</label>
 <!--                                    <input type="file" id="file" name="file" class="form-control"/>-->
                                     <input type="file" class="form-control" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                    <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
+
+                                </div>
+                                <div class="form-group">
+                                    <div style="display: flex; justify-content: space-around">
+                                        <div for="image">
+                                            <p><b>Ảnh ban đầu</b></p>
+                                            <img  type="image" id="image" alt="Product Image" width="100" height="100"/>
+                                        </div>
+                                        <div style="line-height: 130px">
+                                            <i class="bi bi-arrow-left-right"></i>
+                                        </div>
+                                        <div>
+                                            <p><b>Ảnh thay đổi</b></p>
+                                            <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="categoryId">Tên danh mục</label>
@@ -350,7 +366,7 @@
             $('#unit').val(unit);
             $('#quantity').val(quantity);
             $('#price').val(price);
-            $('#image').val(image);
+            $('#image').attr('src', 'data:image/jpeg;base64,' + image);
             // $('#preview').attr('src', 'data:image/jpeg;base64,' + image);
 
             $('#categoryId').val(categoryId);

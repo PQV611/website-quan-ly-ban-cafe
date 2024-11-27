@@ -190,7 +190,7 @@
                     <ul>
                         <li><a th:classappend="${page == 'home'} ? 'active'" href="/homepage">Trang chủ</a></li>
                         <li><a th:classappend="${page == 'menu'} ? 'active'" href="/menu">Menu</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+<!--                        <li><a href="#">Liên hệ</a></li>-->
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a></li>
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
                         <li th:if="${user != null}">
@@ -270,9 +270,17 @@
                         th:style="${bill.status == 0 ? 'color: red;' : 'color: green;'}">
                     </td>
                     <td>
+                        &nbsp;
+                        &nbsp;
                         <a href="javascript:void(0);" class="view" title="View" data-toggle="modal"
                            data-target="#billDetailModal" th:attr="data-bill-id=${bill.getBillId()}">
                             <i class="material-icons">&#xE417;</i>
+                        </a>
+                        &nbsp;
+                        &nbsp;
+                        <a href="javascript:void(0);" class="view" title="View" data-toggle="modal"
+                           data-target="#billDetailModal" th:attr="data-bill-id=${bill.getBillId()}">
+                            <i class="bi bi-pencil-square" style="color: red;"></i>
                         </a>
                     </td>
                 </tr>
@@ -313,8 +321,28 @@
             </div>
             <div class="modal-body">
                 <!-- Content will be loaded here via AJAX -->
-
-
+<!--                <table class="table">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Sản phẩm</th>-->
+<!--                        <th>Mô tả</th>-->
+<!--                        <th>Hình ảnh</th>-->
+<!--                        <th>Số lượng</th>-->
+<!--                        <th>Giá</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="billDetail : ${billDetails}">-->
+<!--                        <td th:text="${billDetail.product.pname}"></td>-->
+<!--                        <td th:text="${billDetail.product.description}"></td>-->
+<!--                        <td>-->
+<!--                            <img th:src="${billDetail.product.image}" alt="Ảnh sản phẩm" style="width: 50px; height: 50px;">-->
+<!--                        </td>-->
+<!--                        <td th:text="${billDetail.quantity}"></td>-->
+<!--                        <td th:text="${billDetail.price}"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
             </div>
         </div>
     </div>
@@ -330,7 +358,7 @@
                     <ul>
                         <li><a href="/homepage">Trang chủ</a></li>
                         <li><a href="/menu">Menu</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+<!--                        <li><a href="#">Liên hệ</a></li>-->
                     </ul>
                 </nav>
                 <div class="col-lg-5 col-md-5 tm-footer-div">
@@ -386,6 +414,7 @@
                 method: 'GET',
                 success: function (response) {
                     document.querySelector('#billDetailModal .modal-body').innerHTML = response;
+                    // modal.find('.modal-body').html(response);
                 }
                 ,
                 error: function () {

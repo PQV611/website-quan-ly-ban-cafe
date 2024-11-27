@@ -107,7 +107,7 @@
                     <ul>
                         <li><a th:classappend="${currentPage == 'home'} ? 'active'" href="/homepage">Trang chủ</a></li>
                         <li><a th:classappend="${currentPage == 'menu'} ? 'active'" href="/menu">Menu</a></li>
-                        <li><a href="#">Contact</a></li>
+<!--                        <li><a href="#">Contact</a></li>-->
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a></li>
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
                         <li th:if="${user != null}">
@@ -242,7 +242,21 @@
                     <div class="form-group">
                         <label for="avatar">Ảnh cá nhân</label>
                         <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*" onchange="previewImage(event)"/>
-                        <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; max-width: 100%; height: auto;"/>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-around">
+                            <div>
+                                <p><b>Ảnh ban đầu</b></p>
+                                <img th:src="'data:image/jpeg;base64,' + ${user.avatar}" style="width: 100px; height: 100px;" alt="avatar">
+                            </div>
+                            <div style="line-height: 130px">
+                                <i class="bi bi-arrow-left-right"></i>
+                            </div>
+                            <div>
+                                <p><b>Ảnh thay đổi</b></p>
+                                <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-custom">Lưu thay đổi</button>
@@ -263,7 +277,7 @@
                     <ul>
                         <li><a href="/homepage">Trang chủ</a></li>
                         <li><a href="/menu">Menu</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+<!--                        <li><a href="#">Liên hệ</a></li>-->
                     </ul>
                 </nav>
                 <div class="col-lg-5 col-md-5 tm-footer-div">

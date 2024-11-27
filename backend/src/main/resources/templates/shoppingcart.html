@@ -47,7 +47,7 @@
                             <a class="nav-link" th:classappend="${currentPage == 'menu'} ? 'active'" href="/menu">Menu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Liên hệ</a>
+<!--                            <a class="nav-link" href="#">Liên hệ</a>-->
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('isAnonymous()')}">
                             <a class="nav-link" href="/register">Đăng ký</a>
@@ -180,7 +180,7 @@
                     <ul>
                         <li><a href="/homepage">Trang chủ</a></li>
                         <li><a href="/menu">Menu</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+<!--                        <li><a href="#">Liên hệ</a></li>-->
                     </ul>
                 </nav>
                 <div class="col-lg-5 col-md-5 tm-footer-div">
