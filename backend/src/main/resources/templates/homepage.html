@@ -78,6 +78,7 @@
                 <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Danh mục</a>
                 <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>
                 <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill">Tất cả Bill</a>
+                <a th:if="${user.getRole_id()==5}" href="/respon">Phản hồi khách hàng</a>
 <!--                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Bảng công việc</a>-->
                 <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Thống kê</a>
                 <a th:if="${user.getRole_id()==5}" href="/admin/users">Cài đặt</a>
@@ -179,7 +180,6 @@
                     <td>
 <!--                        <img th:src="@{${product.image}}" alt="Product Image" width="100" height="100"/>-->
                         <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image" width="100" height="100"/>
-
                     </td>
 
                     <td>
@@ -191,7 +191,7 @@
                                 data-quantity=${product.quantity},
                                 data-price=${product.price},
                                 data-image=${product.image},
-                                data-categoryId=${product.categoryId}">
+                                data-category_id=${product.categoryId}">
                             Cập nhật
                         </button>
                         <a class="btn btn-danger" th:href="@{/products/delete/{id}(id=${product.pid})}"
@@ -359,7 +359,8 @@
             var quantity = $(this).data('quantity');
             var price = $(this).data('price');
             var image = $(this).data('image');
-            var categoryId = $(this).data('categoryid');
+            var categoryId = $(this).data('category_id');
+
             $('#productId').val(pid);
             $('#pname').val(pname);
             $('#description').val(description);
@@ -367,8 +368,6 @@
             $('#quantity').val(quantity);
             $('#price').val(price);
             $('#image').attr('src', 'data:image/jpeg;base64,' + image);
-            // $('#preview').attr('src', 'data:image/jpeg;base64,' + image);
-
             $('#categoryId').val(categoryId);
             $('#updateProductModal').modal('show');
         });

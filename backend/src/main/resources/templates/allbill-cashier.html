@@ -90,6 +90,7 @@
                 <a th:if="${user.getRole_id()==2 || user.getRole_id()==5}" href="/categories">Danh mục</a>
                 <a th:if="${user.getRole_id()==3 || user.getRole_id()==5}" href="/management/table">Danh sách bàn</a>
                 <a th:if="${user.getRole_id()==4 || user.getRole_id()==5}" href="/management/allbill" style="background-color: black; color: white">Tất cả Bill</a>
+                <a th:if="${user.getRole_id()==5}" href="/respon">Phản hồi khách hàng</a>
 <!--                <a th:if="${user.getRole_id()==5}" href="/management/jobboard">Bảng công việc</a>-->
                 <a th:if="${user.getRole_id()==5}" href="/admin/users/statistic">Thống kê</a>
                 <a th:if="${user.getRole_id()==5}" href="/admin/users">Cài đặt</a>
@@ -101,12 +102,11 @@
                     <h1 class="my-4">Hóa đơn</h1>
                     <div class="col-4 my-4">
                         <form action="/management/allbill" method="get" class="d-flex">
-                            <input type="date" name="createdTime" value="${createdTime}" placeholder="Select date"/>
+                            <input type="date" name="createdTime" value="${createdTime}" placeholder="Chọn ngày"/>
                             <input type="submit" value="Tìm kiếm"/>
                         </form>
                     </div>
                 </div>
-
 
                 <div class="col-md-6">
                     <div class="row" style="border-bottom: 1px solid rgb(184, 184, 184); display: flex;margin-top: 5%">

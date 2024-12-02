@@ -278,8 +278,11 @@
                         </a>
                         &nbsp;
                         &nbsp;
-                        <a href="javascript:void(0);" class="view" title="View" data-toggle="modal"
-                           data-target="#billDetailModal" th:attr="data-bill-id=${bill.getBillId()}">
+                        <a href="javascript:void(0);" class="view" title="View"
+                           data-toggle="modal"
+                           data-target="#commplainModal" th:attr="data-bill-id=${bill.getBillId()},
+                                                                  data-user_id=${user.getUid()},
+                                                                  data-created_time=${bill.getCreatedTime()}">
                             <i class="bi bi-pencil-square" style="color: red;"></i>
                         </a>
                     </td>
@@ -321,32 +324,11 @@
             </div>
             <div class="modal-body">
                 <!-- Content will be loaded here via AJAX -->
-<!--                <table class="table">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th>Sản phẩm</th>-->
-<!--                        <th>Mô tả</th>-->
-<!--                        <th>Hình ảnh</th>-->
-<!--                        <th>Số lượng</th>-->
-<!--                        <th>Giá</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr th:each="billDetail : ${billDetails}">-->
-<!--                        <td th:text="${billDetail.product.pname}"></td>-->
-<!--                        <td th:text="${billDetail.product.description}"></td>-->
-<!--                        <td>-->
-<!--                            <img th:src="${billDetail.product.image}" alt="Ảnh sản phẩm" style="width: 50px; height: 50px;">-->
-<!--                        </td>-->
-<!--                        <td th:text="${billDetail.quantity}"></td>-->
-<!--                        <td th:text="${billDetail.price}"></td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
             </div>
         </div>
     </div>
 </div>
+
 
 
 <footer>
