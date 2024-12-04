@@ -324,7 +324,7 @@
                                    th:data-username="${user.username}"
                                    th:data-role="${user.role_id}"
                                    th:data-status="${user.status}"><i class="material-icons">&#xE254;</i></a>
-                                <!--                                <a th:href="@{/admin/users/delete/{id}(id=${user.uid})}" class="delete btn-delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>-->
+                                <a th:href="@{/admin/users/delete/{id}(id=${user.uid})}" class="delete btn-delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </td>
                         </tr>
                         </tbody>

@@ -78,6 +78,11 @@
             margin-top: 20px;
         }
 
+        .content-cell{
+            max-width: 200px; /* Giới hạn chiều rộng tối đa */
+            white-space: normal; /* Cho phép xuống dòng */
+            word-wrap: break-word; /* Tự động xuống dòng khi nội dung vượt quá */
+        }
     </style>
 </head>
 
@@ -161,94 +166,55 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div th:if="${feedbacks.isEmpty()}">
+                    <div th:if="${respons.isEmpty()}">
                         <p class="text-center">Không có phản hồi nào được tạo vào ngày này.</p>
                     </div>
 
-                    <div th:unless="${feedbacks.isEmpty()}">
+                    <div th:unless="${respons.isEmpty()}">
                         <table class="table table-striped">
                             <thead class="">
                                 <tr>
-                                    <th scope="col">ID</th>
+<!--                                    <th scope="col">ID</th>-->
+                                    <th scope="col">Mã User</th>
                                     <th scope="col">Tên người dùng</th>
-                                    <th scope="col">Chi tiết phản hồi</th>
                                     <th scope="col">Ngày phản hồi</th>
+                                    <th scope="col">Tiêu đề</th>
+                                    <th scope="col">Nội dung</th>
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
-<!--                            <tr th:each="feedback : ${feedbacks}">-->
-<!--                                <td>-->
-<!--                                    <button type="button" class="btn btn-link" data-toggle="modal"-->
-<!--                                            data-target="#feedbackModal" th:attr="data-user-id=${feedback[0].getUserId()}"-->
-<!--                                            th:text="${feedback[0].getUserId()}"></button>-->
-<!--                                </td>-->
-<!--                                <td th:text="${feedback[1]}"></td>-->
-<!--                                <td>-->
-<!--                                    <a href="javascript:void(0);" class="view" title="View" data-toggle="modal"-->
-<!--                                       data-target="#billDetailModal" th:attr="data-bill-id=${feedback[0].getBillId()}">-->
-<!--                                        <i class="material-icons">&#xE417;</i>-->
-<!--                                    </a>-->
-<!--                                </td>-->
-<!--                                <td th:text="${#dates.format(feedback[0].createdTime, 'yyyy-MM-dd')}"></td>-->
-<!--                                <td>-->
-<!--                                    <span th:text="${feedback[0].status == 1 ? 'Đã phản hồi' : 'Chưa phản hồi'}"-->
-<!--                                          th:classappend="${feedback[0].status == 1 ? 'text-success' : 'text-danger'}">-->
-<!--                                    </span>-->
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                    <button type="button" class="btn btn-primary btn-complain" data-toggle="modal"-->
-<!--                                            data-target="#feedbackModal"-->
-<!--                                            th:attr="data-fid=${feedback[0].getFid()},-->
-<!--                                             data-userId=${feedback[0].getUserId()},-->
-<!--                                             data-username=${feedback[1]},-->
-<!--                                             data-billId=${feedback[0].getBillId()},-->
-<!--                                             data-createdTime=${feedback[0].getCreatedTime()},-->
-<!--                                             data-status=${feedback[0].getStatus()},-->
-<!--                                             data-complain=${feedback[0].getComplain()},-->
-<!--                                             data-respon=${feedback[0].getRespon()}">-->
-<!--                                        Phản hồi-->
-<!--                                    </button>-->
-<!--                                    <a class="btn btn-danger" th:href="@{/respon/delete/{id}(id=${feedback[0].getFid()})}"-->
-<!--                                       style="width: 84.5px;" onclick="return confirm('Bạn có chắc chắn muốn xóa phản hồi này?');">-->
-<!--                                        Xóa</a>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-                                <tr th:each="feedbackDTO : ${feedbacks}">
+                                <tr th:each="responData : ${respons}">
+<!--                                    <td th:text="${responData.complain.cid}"></td>-->
                                     <td>
                                         <button type="button" class="btn btn-link" data-toggle="modal"
-                                                data-target="#feedbackModal" th:attr="data-user-id=${feedbackDTO.feedback.userId}"
-                                                th:text="${feedbackDTO.feedback.userId}"></button>
+                                                data-target="#feedbackModal" th:attr="data-user-id=${responData.complain.userId}"
+                                                th:text="${responData.complain.userId}"></button>
                                     </td>
-                                    <td th:text="${feedbackDTO.username}"></td>
+                                    <td th:text="${responData.username}"></td>
+                                    <td th:text="${#dates.format(responData.complain.createdTime, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${responData.complain.title}" class="content-cell"></td>
+                                    <td th:text="${responData.complain.complainUser}" class="content-cell"></td>
                                     <td>
-                                        <a href="javascript:void(0);" class="view" title="View" data-toggle="modal"
-                                           data-target="#billDetailModal" th:attr="data-bill-id=${feedbackDTO.feedback.billId}">
-                                            <i class="material-icons">&#xE417;</i>
-                                        </a>
-                                    </td>
-                                    <td th:text="${#dates.format(feedbackDTO.feedback.createdTime, 'yyyy-MM-dd')}"></td>
-                                    <td>
-                                        <span th:text="${feedbackDTO.feedback.status == 1 ? 'Đã phản hồi' : 'Chưa phản hồi'}"
-                                              th:classappend="${feedbackDTO.feedback.status == 1 ? 'text-success' : 'text-danger'}">
+                                        <span th:text="${responData.complain.status == 1 ? 'Đã phản hồi' : 'Chưa phản hồi'}"
+                                              th:classappend="${responData.complain.status == 1 ? 'text-success' : 'text-danger'}">
                                         </span>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-complain" data-toggle="modal"
                                                 data-target="#feedbackModal"
-                                                th:attr="data-fid=${feedbackDTO.feedback.fid},
-                                                         data-userId=${feedbackDTO.feedback.userId},
-                                                         data-username=${feedbackDTO.username},
-                                                         data-billId=${feedbackDTO.feedback.billId},
-                                                         data-createdTime=${feedbackDTO.feedback.createdTime},
-                                                         data-status=${feedbackDTO.feedback.status},
-                                                         data-complain=${feedbackDTO.feedback.complain},
-                                                         data-respon=${feedbackDTO.feedback.respon}">
+                                                th:attr="data-cid=${responData.complain.cid},
+                                                         data-userId=${responData.complain.userId},
+                                                         data-username=${responData.username},
+                                                         data-createdTime=${responData.complain.createdTime},
+                                                         data-title=${responData.complain.title},
+                                                         data-complain=${responData.complain.complainUser},
+                                                         data-status=${responData.complain.status},
+                                                         data-respon=${responData.complain.respon}">
                                             Phản hồi
                                         </button>
-                                        <a class="btn btn-danger" th:href="@{/respon/delete/{id}(id=${feedbackDTO.feedback.fid})}"
-                                           style="width: 84.5px;" onclick="return confirm('Bạn có chắc chắn muốn xóa phản hồi này?');">
+                                        <a class="btn btn-danger" style="width: 84.5px;" th:href="@{/respon/delete/{id}(id=${responData.complain.cid})}" onclick="return confirm('Bạn có chắc chắn muốn xóa phản hồi này?');">
                                             Xóa</a>
                                     </td>
                                 </tr>
@@ -259,7 +225,7 @@
                 </div>
 
                 <div class="col-12">
-                    <div class="pagination-container" th:unless="${feedbacks.isEmpty()}">
+                    <div class="pagination-container" th:unless="${respons.isEmpty()}">
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
@@ -292,22 +258,22 @@
 </div>
 
 <!-- Bill Detail Modal -->
-<div class="modal fade" id="billDetailModal" tabindex="-1" role="dialog" aria-labelledby="billDetailModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog custom-width" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="billDetailModalLabel">Chi tiết đơn hàng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Content will be loaded here via AJAX -->
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal fade" id="billDetailModal" tabindex="-1" role="dialog" aria-labelledby="billDetailModalLabel"-->
+<!--     aria-hidden="true">-->
+<!--    <div class="modal-dialog custom-width" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="billDetailModalLabel">Chi tiết đơn hàng</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                &lt;!&ndash; Content will be loaded here via AJAX &ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <div class="modal fade" id = "complainModal" tabindex="-1" aria-labelledby="complainModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -319,13 +285,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="complainModalForm" th:action="@{/respon/complain}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" id="fid" name="fid"/>
+                <form id="complainModalForm" th:action="@{/respon/sendRespon}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="cid" name="cid"/>
                     <input type="hidden" id="status" name="status"/>
                     <input type="hidden" id="userId" name="userId"/>
 
                     <div class="form-group">
-                        <label for="complain">Phàn nàn của khách hàng:</label>
+                        <label for="complain">Nội dung phàn nàn:</label>
                         <textarea class="form-control" id="complain" name="complain" rows="3" readonly></textarea>
                     </div>
 
@@ -346,38 +312,38 @@
 
 <script>
     $(document).ready(function () {
-        $('#billDetailModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var billId = button.data('bill-id'); // Extract info from data-* attributes
-
-            var modal = $(this);
-            // Use AJAX to fetch bill details
-            $.ajax({
-                url: '/management/billdetail/' + billId,
-                method: 'GET',
-                success: function (response) {
-                    modal.find('.modal-body').html(response); // Insert response HTML into modal body
-                },
-                error: function () {
-                    modal.find('.modal-body').html('<p>Lỗi tải chi tiết hóa đơn.</p>');
-                }
-            });
-        });
+        // $('#billDetailModal').on('show.bs.modal', function (event) {
+        //     var button = $(event.relatedTarget); // Button that triggered the modal
+        //     var billId = button.data('bill-id'); // Extract info from data-* attributes
+        //
+        //     var modal = $(this);
+        //     // Use AJAX to fetch bill details
+        //     $.ajax({
+        //         url: '/management/billdetail/' + billId,
+        //         method: 'GET',
+        //         success: function (response) {
+        //             modal.find('.modal-body').html(response); // Insert response HTML into modal body
+        //         },
+        //         error: function () {
+        //             modal.find('.modal-body').html('<p>Lỗi tải chi tiết hóa đơn.</p>');
+        //         }
+        //     });
+        // });
 
         $('.btn-complain').click(function (){
-            var fid = $(this).data('fid');
+            var cid = $(this).data('cid');
             var userId = $(this).data('userId')
             var username = $(this).data('username');
-            var billId = $(this).data('billId');
             var createdTime = $(this).data('createdTime');
-            var status = $(this).data('status');
+            var title = $(this).data('title');
             var complain = $(this).data('complain');
+            var status = $(this).data('status');
             var respon = $(this).data('respon');
 
-            $('#fid').val(fid);
+            $('#cid').val(cid);
             $('#userId').val(userId);
             $('#status').val(status);
-            $('#billId').val(billId);
+            $('#title').val(title);
             $('#createdTime').val(createdTime);
             $('#complain').val(complain);
             $('#respon').val(respon);

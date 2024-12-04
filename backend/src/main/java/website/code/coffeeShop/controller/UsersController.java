@@ -11,11 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import website.code.coffeeShop.model.Bill;
 import website.code.coffeeShop.model.BillDetail;
+import website.code.coffeeShop.model.Complain;
 import website.code.coffeeShop.model.Users;
-import website.code.coffeeShop.service.BillDetailService;
-import website.code.coffeeShop.service.BillService;
-import website.code.coffeeShop.service.CartItemService;
-import website.code.coffeeShop.service.UserService;
+import website.code.coffeeShop.service.*;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -41,6 +39,8 @@ public class UsersController {
     @Autowired
     private BillDetailService billDetailService;
 
+    @Autowired
+    private ComplainService complainService;
     @GetMapping
     public String viewProfile(Model model, Principal principal) {
         String username = principal.getName();
@@ -180,4 +180,30 @@ public class UsersController {
         return billDetailService.findByBillId(billId);
     }
 
+    @GetMapping("/complainUser")
+    public String ShowComplain(@RequestParam(defaultValue = "1") int pageNo,
+                               @RequestParam(name = "pageSize", defaultValue = "5") int pageSize,
+                               @RequestParam(required = false) String keyword,
+                               Model model, Principal principal){
+        String username = principal.getName();
+        Users user = userService.findByUsername(username);
+        int userId = user.getUid();
+        List<CartItemService.CartItemWithProduct> cartItems = cartItemService.getCartItemsByCustomerId(userId);
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("user", user);
+        model.addAttribute("page", "profile");
+
+        //5 complain per page
+        PageRequest pageable = PageRequest.of(pageNo - 1, pageSize);
+
+
+        Page<Complain> complains = complainService.getComplain(userId, pageable);
+
+        model.addAttribute("complains", complains.getContent());
+        model.addAttribute("totalPage", complains.getTotalPages());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("pageSize", pageSize);
+        return "complainHistory";
+    }
 }

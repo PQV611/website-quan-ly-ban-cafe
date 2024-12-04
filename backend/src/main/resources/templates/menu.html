@@ -194,7 +194,7 @@
                     <ul>
                         <li><a th:classappend="${currentPage1 == 'home'} ? 'active':''" href="/homepage">Trang chủ</a></li>
                         <li><a th:classappend="${currentPage1 == 'menu'} ? 'active':''" href="/menu">Menu</a></li>
-<!--                        <li><a href="#">Contact</a></li>-->
+                        <li><a th:classappend="${currentPage == 'complain'} ? 'active'" href="/complain">Liên hệ</a></li>
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a></li>
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
                         <li th:if="${user != null}">
@@ -355,7 +355,7 @@
                     <ul>
                         <li><a href="/homepage">Trang chủ</a></li>
                         <li><a href="/menu">Menu</a></li>
-<!--                        <li><a href="#">Liên hệ</a></li>-->
+                        <li><a href="/complain">Liên hệ</a></li>
                     </ul>
                 </nav>
                 <div class="col-lg-5 col-md-5 tm-footer-div">

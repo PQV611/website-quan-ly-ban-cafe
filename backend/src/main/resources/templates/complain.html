@@ -190,7 +190,7 @@
                     <ul>
                         <li><a th:classappend="${page == 'home'} ? 'active'" href="/homepage">Trang chủ</a></li>
                         <li><a th:classappend="${page == 'menu'} ? 'active'" href="/menu">Menu</a></li>
-                        <li><a th:classappend="${currentPage == 'complain'} ? 'active'" href="/complain">Liên hệ</a></li>
+                        <li><a th:classappend="${page == 'complain'} ? 'active'" href="/complain">Liên hệ</a></li>
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/register">Đăng kí</a></li>
                         <li th:if="${#authorization.expression('isAnonymous()')}"><a href="/login">Đăng nhập</a></li>
                         <li th:if="${user != null}">
@@ -200,7 +200,7 @@
                                       th:text="${cartItems.size()}"></span>
                             </a>
                         </li>
-                        <li th:classappend="${currentPage == 'profile'} ? 'active'" th:if="${user != null}">
+                        <li th:classappend="${currentPage == 'complain'} ? 'active'" th:if="${user != null}">
                             <!--                            <span th:if="${user != null}"><a style="color: yellow"></a></span>-->
                             <a href="/profile">
                                 <i class="bi bi-person-circle"></i>
@@ -220,114 +220,38 @@
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
+                    <div class="col-sm-4"></div>
                     <div class="col-sm-4">
-                        <div class="show-entries">
-
-                        </div>
+                        <h2 class="text-center"><b>ĐƠN KHIẾU NẠI</b></h2>
                     </div>
-                    <div class="col-sm-4">
-                        <h2 class="text-center"><b>LỊCH SỬ MUA HÀNG</b></h2>
-                    </div>
-                    <div class="col-sm-4">
-                        <div>
-                            <form th:action="@{/profile/history}" method="get">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Nhập số điện thoại ..."
-                                           aria-label="Recipient's username" aria-describedby="basic-addon2"
-                                           name="phone" th:value="${searchQuery}">
-                                    <div class="input-group-append" style="display: flex">
-                                        <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
-                                    </div>
-                                </div>
-                                <div th:if="${errorMessage != null}" class="text-danger">
-                                    <p th:text="${errorMessage}"></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <div class="col-sm-4"></div>
                 </div>
             </div>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Mã bill</th>
-                    <th>Thời gian mua</th>
-                    <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Tổng chi phí</th>
-                    <th>Trạng thái</th>
-                    <th>Hoạt động</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="bill : ${bills}">
-                    <td th:text="${bill.billId}"></td>
-                    <td th:text="${#dates.format(bill.createdTime, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${bill.phone}"></td>
-                    <td th:text="${bill.address}"></td>
-                    <td th:text="${bill.totalCost}+' VND'"></td>
-                    <td th:text="${bill.status == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"
-                        th:style="${bill.status == 0 ? 'color: red;' : 'color: green;'}">
-                    </td>
-                    <td>
-                        &nbsp;
-                        &nbsp;
-                        <a href="javascript:void(0);" class="view" title="View" data-toggle="modal"
-                           data-target="#billDetailModal" th:attr="data-bill-id=${bill.getBillId()}">
-                            <i class="material-icons">&#xE417;</i>
-                        </a>
-                        &nbsp;
-                        &nbsp;
-<!--                        <a href="javascript:void(0);" class="view" title="View"-->
-<!--                           data-toggle="modal"-->
-<!--                           data-target="#commplainModal">-->
-<!--                            <i class="bi bi-pencil-square" style="color: red;"></i>-->
-<!--                        </a>-->
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="clearfix">
-                <ul class="pagination">
-                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                        <a th:href="@{/profile/history(page=${currentPage - 1}, phone=${searchQuery})}"
-                           class="page-link">Previous</a>
-                    </li>
 
-                    <li class="page-item" th:each="i : ${#numbers.sequence(0, bills.totalPages - 1)}"
-                        th:classappend="${i == currentPage} ? 'active'">
-                        <a th:href="@{/profile/history(page=${i}, phone=${searchQuery})}" class="page-link"
-                           th:text="${i + 1}">1</a>
-                    </li>
+            <div class="col-md-3">
 
-                    <li class="page-item" th:classappend="${!bills.hasNext()} ? 'disabled'">
-                        <a th:href="@{/profile/history(page=${currentPage + 1}, phone=${searchQuery})}"
-                           class="page-link">Next</a>
-                    </li>
-                </ul>
             </div>
+            <div class="col-md-6">
+                <div id="success-message" th:if="${message}" class="alert alert-success" role="alert">
+                    <span th:text="${message}"></span>
+                </div>
+                <form th:action="@{/complain/add}" th:object="${complain}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Tiêu đề:</label>
+                        <input class="form-control" id="title" name="title" rows="3" th:field="*{title}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complain">Phàn nàn của khách hàng:</label>
+                        <textarea class="form-control" id="complain" name="complain" rows="3" th:field="*{complainUser}"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Phản hồi</button>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="billDetailModal" tabindex="-1" role="dialog" aria-labelledby="billDetailModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog custom-width" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="billDetailModalLabel">Chi tiết đơn hàng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Content will be loaded here via AJAX -->
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <footer>
     <div class="tm-black-bg">
@@ -364,45 +288,5 @@
     </div>
 </footer>
 
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-        // Animate select box length
-        var searchInput = $(".search-box input");
-        var inputGroup = $(".search-box .input-group");
-        var boxWidth = inputGroup.width();
-        searchInput.focus(function () {
-            inputGroup.animate({
-                width: "300"
-            });
-        }).blur(function () {
-            inputGroup.animate({
-                width: boxWidth
-            });
-        });
-    });
-
-    $(document).ready(function () {
-        $('#billDetailModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var billId = button.data('bill-id'); // Extract info from data-* attributes
-
-            var modal = $(this);
-            // Use AJAX to fetch bill details
-            $.ajax({
-                url: '/management/billdetail/' + billId,
-                method: 'GET',
-                success: function (response) {
-                    document.querySelector('#billDetailModal .modal-body').innerHTML = response;
-                    // modal.find('.modal-body').html(response);
-                }
-                ,
-                error: function () {
-                    modal.find('.modal-body').html('<p>Lỗi tải chi tiết hóa đơn. </p>');
-                }
-            });
-        });
-    });
-</script>
 </body>
 </html>
