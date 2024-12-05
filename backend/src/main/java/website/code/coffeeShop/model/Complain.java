@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -26,9 +27,11 @@ public class Complain {
     private Date createdTime;
 
     @Column(name = "title")
+    @NotBlank(message = "Tiêu đề không được để trống !")
     private String title;
 
     @Column(name = "complain")
+    @NotBlank(message = "Khiếu nại không được để trống !")
     private String complainUser;
 
     @Column(name = "respon")

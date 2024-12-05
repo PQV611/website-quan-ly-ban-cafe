@@ -51,12 +51,20 @@ public class ComplainController {
 
     @PostMapping("/complain/add")
     public String addomplain(@ModelAttribute("complain") Complain complain,
+                             BindingResult result,
                              Model model,
                              Principal principal,
                              RedirectAttributes redirectAttributes) {
         String username = principal.getName();
         Users user = userService.findByUsername(username);
         int userId = user.getUid();
+
+        if(result.hasErrors()) {
+            model.addAttribute("errormessage", "Bạn phải nhập đầy đủ thông tin");
+            model.addAttribute("complain", complain);
+            return "complain";
+        }
+
         try{
             complainService.saveComplainToDB(userId, new Date(), complain.getTitle(), complain.getComplainUser(), 0);
             redirectAttributes.addFlashAttribute("message", "Phản hồi thành công !");
@@ -134,11 +142,16 @@ public class ComplainController {
             if (complain1 == null) {
                 throw new RuntimeException("Không thể tìm thấy: " + cid);
             }
-            complain1.setComplainUser(complain);
-            complain1.setRespon(respon);
-            complain1.setStatus(1);
-            complainService.save(complain1);
-            redirectAttributes.addFlashAttribute("message", "Phản hồi khách hàng thành công.");
+            if(respon != null && !respon.isEmpty()){
+                complain1.setComplainUser(complain);
+                complain1.setRespon(respon);
+                complain1.setStatus(1);
+                complainService.save(complain1);
+                redirectAttributes.addFlashAttribute("message", "Phản hồi khách hàng thành công.");
+            }else {
+                redirectAttributes.addFlashAttribute("errormessage", "Bạn không nhập thì gửi bằng mắt");
+            }
+
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error", "Có lỗi gì đó rồi.");
         }

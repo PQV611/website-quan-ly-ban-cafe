@@ -164,6 +164,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div id="danger-message" th:if="${errormessage}" class="alert alert-danger" role="alert">
+                <span th:text="${errormessage}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div th:if="${respons.isEmpty()}">
@@ -257,24 +263,6 @@
     </div>
 </div>
 
-<!-- Bill Detail Modal -->
-<!--<div class="modal fade" id="billDetailModal" tabindex="-1" role="dialog" aria-labelledby="billDetailModalLabel"-->
-<!--     aria-hidden="true">-->
-<!--    <div class="modal-dialog custom-width" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="billDetailModalLabel">Chi tiết đơn hàng</h5>-->
-<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">&times;</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                &lt;!&ndash; Content will be loaded here via AJAX &ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="modal fade" id = "complainModal" tabindex="-1" aria-labelledby="complainModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -312,23 +300,6 @@
 
 <script>
     $(document).ready(function () {
-        // $('#billDetailModal').on('show.bs.modal', function (event) {
-        //     var button = $(event.relatedTarget); // Button that triggered the modal
-        //     var billId = button.data('bill-id'); // Extract info from data-* attributes
-        //
-        //     var modal = $(this);
-        //     // Use AJAX to fetch bill details
-        //     $.ajax({
-        //         url: '/management/billdetail/' + billId,
-        //         method: 'GET',
-        //         success: function (response) {
-        //             modal.find('.modal-body').html(response); // Insert response HTML into modal body
-        //         },
-        //         error: function () {
-        //             modal.find('.modal-body').html('<p>Lỗi tải chi tiết hóa đơn.</p>');
-        //         }
-        //     });
-        // });
 
         $('.btn-complain').click(function (){
             var cid = $(this).data('cid');

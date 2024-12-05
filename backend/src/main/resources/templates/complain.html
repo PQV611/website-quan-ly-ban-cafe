@@ -235,6 +235,10 @@
                 <div id="success-message" th:if="${message}" class="alert alert-success" role="alert">
                     <span th:text="${message}"></span>
                 </div>
+                <div th:if="${errormessage}" class="alert alert-danger">
+                    <span th:text="${errormessage}"></span>
+                </div>
+
                 <form th:action="@{/complain/add}" th:object="${complain}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Tiêu đề:</label>
