@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Bills</title>
     <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
         .sidebar {
             height: 100vh;
@@ -243,7 +244,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="profile__avatar">
-                                    <img th:src="${user.avatar}"  alt="avatar">
+                                    <img th:src="'data:image/jpeg;base64,' + ${user.avatar}"  alt="avatar">
                                 </div>
                                 <div class="profile__header">
                                     <h4 th:text="${user.fullname}"></h4>
@@ -338,8 +339,23 @@
                         <span th:if="${emailError}" class="text-danger" th:text="${emailError}"></span>
                     </div>
                     <div class="form-group">
-                        <label for="avatar">Ảnh tài khoản</label>
-                        <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*"/>
+                        <label for="avatar">Ảnh cá nhân</label>
+                        <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*" onchange="previewImage(event)"/>
+                    </div>
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-around">
+                            <div>
+                                <p><b>Ảnh ban đầu</b></p>
+                                <img th:src="'data:image/jpeg;base64,' + ${user.avatar}" style="width: 100px; height: 100px;" alt="avatar">
+                            </div>
+                            <div style="line-height: 130px">
+                                <i class="bi bi-arrow-left-right"></i>
+                            </div>
+                            <div>
+                                <p><b>Ảnh thay đổi</b></p>
+                                <img id="preview" src="#" alt="Preview Image" style="display: none; margin-top: 10px; width: 100px; height: 100px;"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-custom">Lưu</button>
@@ -373,7 +389,18 @@
             event.preventDefault();
         }
     });
-
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
     $(document).ready(function() {
         // Check if there are error messages and open the modal if needed
         var error = new URLSearchParams(window.location.search).get('error');

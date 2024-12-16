@@ -52,7 +52,7 @@ public class ForgotPasswordController {
         String resetPasswordLink = "http://localhost:8080/reset-password?token=" + token;
         sendEmail(user.getEmail(), resetPasswordLink);
 
-        redirectAttributes.addFlashAttribute("message", "We have sent a reset password link to your email.");
+        redirectAttributes.addFlashAttribute("message", "Chúng tôi đã gửi một link thiết lập lại mật khẩu đến email của bạn.");
         return "redirect:/forgot-password";
     }
 
@@ -79,20 +79,20 @@ public class ForgotPasswordController {
                                        RedirectAttributes redirectAttributes) {
 
         if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("messageErr", "Passwords do not match");
+            redirectAttributes.addFlashAttribute("messageErr", "Mật khẩu không khớp");
             return "redirect:/reset-password?token=" + token;
         }
 
         // Validate the token
         String email = tokenStore.get(token);
         if (email == null) {
-            redirectAttributes.addFlashAttribute("messageErr", "Invalid or expired token");
+            redirectAttributes.addFlashAttribute("messageErr", "Mã thông báo không hợp lệ hoặc đã hết hạn.");
             return "redirect:/forgot-password";
         }
 
         Users user = userRepository.findByEmail(email);
         if (user == null) {
-            redirectAttributes.addFlashAttribute("messageErr", "Invalid user");
+            redirectAttributes.addFlashAttribute("messageErr", "Sai người dùng.");
             return "redirect:/forgot-password";
         }
 //        user.setPass(newPassword);
@@ -102,7 +102,7 @@ public class ForgotPasswordController {
         // Remove the token after successful reset
         tokenStore.remove(token);
 
-        redirectAttributes.addFlashAttribute("message", "Your password has been successfully reset.");
+        redirectAttributes.addFlashAttribute("message", "Mật khẩu của bạn được đổi lại thành công.");
         return "redirect:/login";
     }
 }
